@@ -68,11 +68,7 @@
 				<h1>Find Owls near you!</h1>
 			{% endif %}
 			
-			{% ifequal gimmick.singlular "otter" %}
-				<div id="logo" class="general"><a href="/"><img src="general.png" alt="" ></a></div>
-			{% else %}
-				<div id="logo" class="owl"><a href="/"><img src="owl.png" alt="" ></a></div>
-			{% endifequal %}
+			<div id="logo" class="owl"><a href="/"><img src="owl.png" alt="" ></a></div>
 			
 			{% if results %}
 				{% with results.0 as result %}
@@ -107,7 +103,7 @@
 			
 			{% if results %}
 				<h2>Other nearby Owls</h2>
-				<div id="outermap" style="display: none"><div id="map"></div></div>
+				<div id="outermap" style="display: block"><div id="map" style="max-width:640px;"></div></div>
 				<p style="font-size: 0.8em">Know of a nearer {{ gimmick.singlular }}? Add it to <a href="http://www.wildlifenearyou.com/">WildlifeNearYou.com</a>!</p>
 				
 				{% for result in results|slice:"1:" %}
