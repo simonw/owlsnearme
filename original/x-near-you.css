@@ -1,0 +1,209 @@
+
+
+/* @group General */
+body {
+	background-color: #C6DDAB;
+	margin: 0;
+	padding: 0;
+	font-family: Calibri, "Helvetica Neue", sans-serif;
+	font-size: 1em;
+	line-height: 1.125; /* Baseline grid of 18px */
+}
+a:link {
+	color: #4A64B3;
+	text-decoration: underline;
+}
+a:visited {
+	color: #003474;
+	text-decoration: underline;
+}
+a:hover, 
+a:focus,
+a:active  {
+	color: #000000; 
+}
+.content a:link {
+	color: #6F8159;
+	text-decoration: underline;
+}
+.content a:visited {
+	color: #465138;
+	text-decoration: underline;
+}
+.content a:hover, 
+.content a:focus,
+.content a:active  {
+	color: #000000; 
+}
+a img {
+	border: 0;
+	vertical-align: bottom;
+}
+
+h2 {
+	margin: 0;
+}
+/* @end */
+
+/* @group Helper */
+
+
+
+/* @end */
+
+
+/* @group Page structure */
+
+.header {
+	background-color: #E5F5FD;
+	padding: 0 2em;
+}
+
+.content {
+	background-image: url(grad.png);
+	background-repeat: repeat-x;
+	background-position: 0 0;
+	padding: 0 2em;
+	padding-top: 2em;
+}
+.section {
+	width: 85%;
+	margin: 0 auto;
+	position: relative;
+}
+.article {
+	padding: 1px 0 1px 230px;
+}
+
+/* @end */
+
+
+/* @group Page components */
+
+h1 {
+	margin-top: 100px;
+	font-size: 3em;
+	margin-bottom: 12px;
+}
+
+#logo {
+	position: absolute;
+	bottom: -30px;
+	left: 0;
+}
+#logo.general {
+	bottom: 0;
+	left: -50px;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+input {
+	font-size: 1.5em;
+	padding: 0.3em 0.5em;
+	margin-top: 5px;
+}
+
+input.text {
+	border: 2px solid #BECED6;
+	margin-right: 7px;
+	width: 70%;
+}
+
+input.submit {
+	background-image: url(grad_rev.png);
+	background-repeat: repeat-x;
+	background-position: bottom left;
+	background-color: #C6DDAB;
+	border: 2px solid #AECA8B;
+	font-weight: bold;
+	padding: 0.25em 0.5em;
+	cursor: pointer;
+}
+
+input.submit:active {
+	background-image: url(grad.png);
+	background-position: top left;
+}
+p.help {
+	font-size: 0.8em;
+	margin: 0.4em 0 2em 0;
+	color: #6C7478;
+}
+
+.wlny {
+	font-size: 1.25em;
+	color: #85AE5F;
+}
+.wlny a {
+	display: block;
+	margin-top: 0.7em;
+	width: 230px;
+	margin-bottom: 3em;
+}
+
+
+div.has-img {
+	padding-left: 100px;
+	overflow: hidden;
+}
+
+div.has-img img {
+	margin-left: -100px;
+	float: left;
+	padding: 5px;
+	background-color: white;
+	border: 2px solid #CEDEE6;
+	margin-top: 0.3em;
+	width: 75px;
+	height: 75px;
+}
+
+.content div.has-img img {
+	border-color: #AECA8B;
+}
+div.species {
+	overflow: hidden;
+	margin-bottom: 1em;
+	margin-top: 1em;
+	clear: both;
+	font-size: 1.25em;
+}
+div.species p {
+	margin: 0;
+}
+div.species h2,
+div.species h3 {
+	font-size: 1.5em;
+	margin: 0;
+}
+div.header div.species {
+	margin-top: 0;
+}
+
+#map {
+	width: 100%;
+	height: 10em;
+	display: block;
+	margin: 0 auto;
+}
+#outermap {
+	border: 2px solid #AECA8B;
+	margin-bottom: 2em;
+	margin-top: 2em;
+	background-color: white;
+	padding: 5px;
+	overflow: hidden;
+}
+
+/* @end */
+
+
+
+
+
+
+
