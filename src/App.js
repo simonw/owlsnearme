@@ -110,6 +110,7 @@ class App extends Component {
     places: [],
     species: [],
     observations: [],
+    place_id: null,
     lng: null,
     lat: null,
     nelat: null,
@@ -137,18 +138,25 @@ class App extends Component {
   }
   fetchSpeciesData() {
     // Prefers nelat/nelng/swlat/swlng to lat/lng
-    if (!this.state.nelat && !this.state.lat) {
+    if (!this.state.nelat && !this.state.lat && !this.state.place_id) {
       return;
     }
-    const location = this.state.nelat ? {
-      nelat: this.state.nelat,
-      nelng: this.state.nelng,
-      swlat: this.state.swlat,
-      swlng: this.state.swlng
-    } : {
-      lat: this.state.lat,
-      lng: this.state.lng,
-      radius: 50
+    let location = {};
+    if (this.state.place_id) {
+      location.place_id = this.state.place_id;
+    } else if (this.state.nelat) {
+      location = {
+        nelat: this.state.nelat,
+        nelng: this.state.nelng,
+        swlat: this.state.swlat,
+        swlng: this.state.swlng
+      };
+    } else {
+      location = {
+        lat: this.state.lat,
+        lng: this.state.lng,
+        radius: 50
+      };
     };
     get(
       'https://api.inaturalist.org/v1/observations/species_counts', {
@@ -214,7 +222,8 @@ class App extends Component {
         swlng: place.swlng,
         nelat: place.nelat,
         nelng: place.nelng,
-        placeName: place.displayName
+        placeName: place.displayName,
+        place_id: place.id
       }, () => {
         this.fetchSpeciesData();
       });
