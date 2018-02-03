@@ -10,6 +10,17 @@ const cleanPlaces = (places) => {
   });
 }
 
+const haversine_distance_km = (lat1, lon1, lat2, lon2) => {
+    const world_radius_km = 6371;
+    const p = Math.PI / 180;
+    const a = (
+        0.5 - Math.cos((lat2 - lat1) * p) / 2 +
+        Math.cos(lat1 * p) * Math.cos(lat2 * p) *
+        (1 - Math.cos((lon2 - lon1) * p)) / 2
+    );
+    return world_radius_km * 2 * Math.asin(Math.sqrt(a));
+}
+
 class App extends Component {
   state = {
     standardPlaces: [],
@@ -88,6 +99,14 @@ class App extends Component {
       }
     ).then(response => {
       this.setState({observations: response.data.results.map(o => {
+        let distance_km = null;
+        if (this.state.lat && o.location) {
+          distance_km = haversine_distance_km(
+            this.state.lat, this.state.lng,
+            parseFloat(o.location.split(',')[0]),
+            parseFloat(o.location.split(',')[1]),
+          );
+        }
         return {
           time_observed_at: moment(o.time_observed_at).format('MMMM Do YYYY, h:mm:ss a'),
           image_square: o.photos[0].url,
@@ -96,7 +115,9 @@ class App extends Component {
           name: o.taxon.name,
           uri: o.uri,
           user_name: o.user.name,
-          user_login: o.user.login
+          user_login: o.user.login,
+          place_guess: o.place_guess,
+          distance_km
         }
       })});
     });
@@ -217,7 +238,11 @@ class App extends Component {
               <div className="species" key={o.uri}>
                 <a href={o.uri}><img src={o.image_medium} alt={o.common_name} /></a>
                 <h3>{o.common_name}</h3>
-                <p><em>{o.name}</em> spotted by {o.user_name || o.user_login } on {o.time_observed_at}</p>
+                <p>
+                  <em>{o.name}</em> spotted by {o.user_name || o.user_login }
+                  {o.distance_km && <span>&nbsp;{`${(o.distance_km * (1000/1600)).toFixed(1)} miles away`}&nbsp;</span>}
+                  on {o.time_observed_at}
+                </p>
               </div>
             ))}
           </div>}
