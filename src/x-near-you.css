@@ -60,7 +60,8 @@ table {
 
 /* General */
 body {
-	background-color: #C6DDAB;
+	background-color: #2D2663;
+	color: #FFFFFF;
 	margin: 0;
 	padding: 0;
 	font-family: Calibri, "Helvetica Neue", sans-serif;
@@ -93,7 +94,9 @@ a img {
 
 
 /* Page structure */
-
+section {
+	padding: 1px;
+}
 .inner {
 	width: 70%;
 	margin: 0 auto;
@@ -149,24 +152,25 @@ a img {
 }
 
 .footer .inner {
+	padding-top: 2em;
 	padding-bottom: 2em;
 }
-.footer .credit {
+.footer .meta {
 	color: rgba(255,255,255,0.3);
 	text-align: center;
 	font-size: 0.8em;
 	margin: 0
 }
-.footer a:link,
-.footer a:visited {
+.footer .meta a:link,
+.footer .meta a:visited {
+	color: #FFFFFF;
+	color: rgba(255, 255, 255, 0.5)
+}
+.footer .meta a:hover,
+.footer .meta a:focus,
+.footer .meta a:active  {
 	color: #FFFFFF;
 	color: rgba(255, 255, 255, 0.8)
-}
-.footer a:hover,
-.footer a:focus,
-.footer a:active  {
-	color: #FFFFFF;
-	color: rgba(255, 255, 255, 1)
 }
 
 @media (max-width: 850px) {
@@ -231,13 +235,14 @@ input.submit:active {
 	background-position: top left;
 }
 
-.help,
-.breadcrumbs {
+.meta {
 	font-size: 0.8em;
 	margin: 0.4em 0 2em 0;
-	color: #6C7478;
 }
 
+.species {
+	border: 1px solid white;
+}
 .unit {
 	overflow: hidden;
 	padding-left: 9vw;

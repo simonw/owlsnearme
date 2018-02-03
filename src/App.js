@@ -228,7 +228,7 @@ class App extends Component {
                 value={this.state.q || ''}
               />
               <input type="submit" className="submit" value="Go" />
-              <p className="help">e.g. <a href="/?q=Brighton">Brighton</a> or <a href="/?q=San+Francisco">San Francisco</a></p>
+              <p className="meta">e.g. <a href="/?q=Brighton">Brighton</a> or <a href="/?q=San+Francisco">San Francisco</a></p>
               {deviceLocationButton}
             </div>
           </form>
@@ -247,7 +247,7 @@ class App extends Component {
             ))}
           </div>}
           {this.state.species && <div>
-            <h2>Owls you might see here...</h2>
+            // Species list
             {this.state.species.map((s) => (
               <div className="species" key={s.id}>
                 <a href={`https://www.inaturalist.org/species/${s.id}`}><img src={s.image} alt={s.common_name} /></a>
@@ -260,9 +260,7 @@ class App extends Component {
       </section>
       <section className="footer">
         <div className="inner">
-          <p>by <a href="https://www.inaturalist.org/people/natbat">Natalie Downe</a>
-           and <a href="https://www.inaturalist.org/people/simonw">Simon Willison</a>
-           using data from <a href="https://www.inaturalist.org/">iNaturalist</a></p>
+          <p class="meta">by <a href="https://www.inaturalist.org/people/natbat">Natalie Downe</a> and <a href="https://www.inaturalist.org/people/simonw">Simon Willison</a> using data from <a href="https://www.inaturalist.org/">iNaturalist</a></p>
         </div>
       </section>
       {window.localStorage.getItem('debug') && <section>
