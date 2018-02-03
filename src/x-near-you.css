@@ -155,6 +155,7 @@ section {
 .footer .inner {
 	padding-top: 2em;
 	padding-bottom: 2em;
+	line-height: 1.3;
 }
 .footer .meta {
 	color: rgba(255,255,255,0.3);
@@ -299,19 +300,29 @@ input.submit:active {
 	width: 100%;
 	height: 100%;
 }
+.observation p {
+	line-height: 1.3
+}
 .observation .title {
 	margin: 0 0 0.3em 0;
 	font-size: 1.8em;
+	line-height: 1.3;
 }
+
 .observation .title a:link,
-.observation .title a:link,
-.observation .title a:link,
-.observation .title a:link,
-.observation .title a:link {
+.observation .title a:visited {
 	color: rgba(59, 41, 10, 1)
 }
+.observation .title a:hover,
+.observation .title a:active,
+.observation .title a:focus {
+	color: rgba(59, 41, 10, 0.8)
+}
 .observation .observation-species {
-	color: rgba(59, 41, 10, 0.3)
+	color: rgba(59, 41, 10, 0.3);
+	font-style: italic;
+	display: block;
+	font-size: 0.8em
 }
 .verify {
 
