@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { get } from 'axios';
 import { Map, TileLayer } from 'react-leaflet';
@@ -88,10 +87,6 @@ class App extends Component {
     const position = [this.state.lat, this.state.lng];
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
         <Map center={position} zoom={12}>
           <TileLayer
             attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
@@ -105,7 +100,6 @@ class App extends Component {
         <pre>
           {JSON.stringify(this.state, null, 2)}
         </pre>
-
       </div>
     );
   }
