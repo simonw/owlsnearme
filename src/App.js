@@ -110,6 +110,7 @@ class App extends Component {
       'https://api.inaturalist.org/v1/observations/species_counts', {
         params: {
           taxon_id: 19350,
+          quality_grade: 'research',
           ...location
         }
       }
