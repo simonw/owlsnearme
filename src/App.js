@@ -153,6 +153,7 @@ class App extends Component {
           user_name: o.user.name,
           user_login: o.user.login,
           place_guess: o.place_guess,
+          is_research: o.quality_grade === 'research',
           distance_km
         }
       })});
@@ -328,8 +329,11 @@ class App extends Component {
                 <h3 className="title"><a href="">{o.common_name}</a> <em className="observation-species">{o.name}</em></h3>
                 <p>spotted by <a href={`https://www.inaturalist.org/people/${o.user_login}`}>{o.user_name || o.user_login }</a> {o.distance_km && <span>&nbsp;{`${(o.distance_km * (1000/1600)).toFixed(1)} miles away`}&nbsp;</span>} in {o.place_guess} on {o.time_observed_at}.</p>
                 <p>
-                  <a className="verify help-needed">Help Verify observation</a>
-                  <span className="verify">Verified observation</span>
+                  {o.is_research ? (
+                    <span className="verify">Verified observation</span>
+                  ) : (
+                    <a className="verify help-needed" href={o.uri}>Help verify observation</a>
+                  )}
                 </p>
 
               </div>
