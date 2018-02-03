@@ -287,7 +287,7 @@ class App extends Component {
                 value={this.state.q || ''}
               />
               <input type="submit" className="submit" value="Go" />
-              {this.state.places.length != 0 && <div>
+              {this.state.places.length !== 0 && <div>
                 {this.state.places.map(place => {
                   return <div>
                     <a href={`?place=${place.id}`}>{place.displayName}</a>
@@ -299,7 +299,7 @@ class App extends Component {
             </div>
           </form>
 
-          {this.state.species.length != 0 && <div className="species-list">
+          {this.state.species.length !== 0 && <div className="species-list">
             {/* Species list */}
             {this.state.species.map((s) => (
               <div className="species" key={s.id}>
@@ -317,7 +317,7 @@ class App extends Component {
         {map}
       </section>
 
-      {this.state.observations.length != 0 && <section className="secondary">
+      {this.state.observations.length !== 0 && <section className="secondary">
         <div className="inner">
 
           <h2>Recent Owls spotted nearby</h2>
