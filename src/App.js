@@ -179,7 +179,6 @@ class App extends Component {
     });
   }
   render() {
-    const position = this.state.lat && [this.state.lat, this.state.lng];
     let map = null;
     const layers = [
       <TileLayer
@@ -196,9 +195,22 @@ class App extends Component {
         [this.state.swlat, this.state.swlng],
         [this.state.nelat, this.state.nelng]
       ];
-      map = <Map dragging={false} zoomControl={false} bounds={bounds}>{layers[0]}{layers[1]}</Map>;
+      map = (
+        <Map
+          dragging={false}
+          zoomControl={false}
+          bounds={bounds}
+        >{layers[0]}{layers[1]}</Map>
+      );
     } else if (this.state.lat) {
-      map = <Map dragging={false} zoomControl={false} center={position} zoom={12}>{layers[0]}{layers[1]}</Map>;
+      map = (
+        <Map
+          dragging={false}
+          zoomControl={false}
+          center={[this.state.lat, this.state.lng]}
+          zoom={12}>{layers[0]}{layers[1]}
+        </Map>
+      );
     }
     const deviceLocationButton = window.navigator.geolocation && (
       <div>

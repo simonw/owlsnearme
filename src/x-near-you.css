@@ -266,3 +266,8 @@ input.submit:active {
 	margin: 0 0 0.3em 0;
 	font-size: 1.8em;
 }
+
+.leaflet-container {
+  height: 400px;
+  width: 100%;
+}
