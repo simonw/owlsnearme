@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
+import './x-near-you.css';
 import { get } from 'axios';
 import { Map, TileLayer } from 'react-leaflet';
 import moment from 'moment-es6';
+
+import owl_png from './owl.png';
 
 const cleanPlaces = (places) => {
   return places.map(({bounding_box_geojson, name, display_name}) => {
@@ -131,50 +134,71 @@ class App extends Component {
   }
   render() {
     const position = this.state.lat && [this.state.lat, this.state.lng];
-    return (
-      <div className="App">
-        <form action="/" method="GET" onSubmit={this.onSubmit.bind(this)}>
-          <input type="search"
-            onChange={this.onTextChange.bind(this)}
-            placeholder="Search for a place, e.g. San Francisco"
-            value={this.state.q}
-          />
-          <input type="submit" value="Search" />
-        </form>
-        {position && <Map center={position} zoom={12}>
-          <TileLayer
-            attribution="&amp;copy <a href=&quot;https://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <TileLayer
-            attribution="<a href=&quot;https://www.inaturalist.org/&quot;>iNaturalist</a>"
-            url="https://api.inaturalist.org/v1/colored_heatmap/{z}/{x}/{y}.png?taxon_id=19350"
-          />
-        </Map>}
-        {this.state.observations && <div>
-          {this.state.observations.map((o) => (
-            <div className="species" key={o.uri}>
-              <a href={o.uri}><img src={o.image_medium} alt={o.common_name} /></a>
-              <h3>{o.common_name}</h3>
-              <p><em>{o.name}</em> spotted by {o.user_name || o.user_login } on {o.time_observed_at}</p>
+    return (<div>
+      <section className="primary">
+        <div className="inner">
+          <h1>Find owls near me!</h1>
+          <div className="content-wrapper">
+            <div className="logo owl">
+              <a href="/"><img src={owl_png} alt="back to homepage" /></a>
             </div>
-          ))}
-        </div>}
-        {this.state.species && <div>
-          <h2>Owls you might see here...</h2>
-          {this.state.species.map((s) => (
-            <div className="species" key={s.id}>
-              <a href={`https://www.inaturalist.org/species/${s.id}`}><img src={s.image} alt={s.common_name} /></a>
-              <h3>{s.common_name}</h3>
-              <p><em>{s.name}</em> spotted {s.count} times</p>
-            </div>
-          ))}
-        </div>}
-        <pre>
+            <form action="/" method="GET" onSubmit={this.onSubmit.bind(this)}>
+              <div>
+                <input
+                  type="text"
+                  size={30}
+                  title="Location"
+                  className="text"
+                  name="q"
+                  onChange={this.onTextChange.bind(this)}
+                  placeholder="Search for a place, e.g. San Francisco"
+                  value={this.state.q || ''}
+                />
+                <input type="submit" className="submit" value="Go" />
+                <p className="help">e.g. <a href="/?q=Brighton">Brighton</a> or <a href="/?q=San+Francisco">San Francisco</a></p>
+              </div>
+            </form>
+            {position && <Map center={position} zoom={12}>
+              <TileLayer
+                attribution="&amp;copy <a href=&quot;https://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <TileLayer
+                attribution="<a href=&quot;https://www.inaturalist.org/&quot;>iNaturalist</a>"
+                url="https://api.inaturalist.org/v1/colored_heatmap/{z}/{x}/{y}.png?taxon_id=19350"
+              />
+            </Map>}
+            {this.state.observations && <div>
+              {this.state.observations.map((o) => (
+                <div className="species" key={o.uri}>
+                  <a href={o.uri}><img src={o.image_medium} alt={o.common_name} /></a>
+                  <h3>{o.common_name}</h3>
+                  <p><em>{o.name}</em> spotted by {o.user_name || o.user_login } on {o.time_observed_at}</p>
+                </div>
+              ))}
+            </div>}
+            {this.state.species && <div>
+              <h2>Owls you might see here...</h2>
+              {this.state.species.map((s) => (
+                <div className="species" key={s.id}>
+                  <a href={`https://www.inaturalist.org/species/${s.id}`}><img src={s.image} alt={s.common_name} /></a>
+                  <h3>{s.common_name}</h3>
+                  <p><em>{s.name}</em> spotted {s.count} times</p>
+                </div>
+              ))}
+            </div>}
+          </div>
+        </div>
+      </section>
+      <section className="footer">
+        <div className="inner">
+          <p>by Natalie Downe and Simon Willison using data from iNaturalist</p>
+        </div>
+        {window.localStorage.getItem('debug') && <pre>
           {JSON.stringify(this.state, null, 2)}
-        </pre>
-      </div>
-    );
+        </pre>}
+      </section>
+    </div>);
   }
 }
 

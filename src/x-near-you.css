@@ -1,0 +1,236 @@
+/* General */
+body {
+	background-color: #C6DDAB;
+	margin: 0;
+	padding: 0;
+	font-family: Calibri, "Helvetica Neue", sans-serif;
+	font-size: 1em;
+	line-height: 1.125; /* Baseline grid of 18px */
+}
+div,
+section,
+article {
+	display: block;
+	box-sizing: border-box;
+}
+a:link {
+	color: #4A64B3;
+	text-decoration: underline;
+}
+a:visited {
+	color: #003474;
+	text-decoration: underline;
+}
+a:hover,
+a:focus,
+a:active  {
+	color: #000000;
+}
+
+a img {
+	border: 0;
+	vertical-align: bottom;
+}
+
+h2 {
+	margin: 0;
+}
+
+
+/* Page structure */
+
+.inner {
+	width: 70%;
+	margin: 0 auto;
+	transition: width 1s;
+}
+
+.primary {
+	background-color: #E5F5FD;
+	padding: 1px 0 0 0;
+}
+.primary .inner {
+	padding-bottom: 30px;
+}
+
+.logo {
+	width: 225px;
+}
+.logo a,
+.logo img {
+	display: block;
+}
+.secondary .inner {
+	padding: 2em 0;
+}
+.secondary a:link {
+	color: #6F8159;
+}
+.secondary a:visited {
+	color: #465138;
+}
+.secondary a:hover,
+.secondary a:focus,
+.secondary a:active  {
+	color: #000000;
+}
+
+.home .primary {
+	background-image: url(grad.png);
+	background-repeat: repeat-x;
+	background-position: bottom left;
+	position: relative;
+}
+
+.home .primary .inner {
+	padding-left: 250px;
+}
+.home .logo {
+	float: left;
+	margin-left: -250px;
+	position: absolute;
+	bottom: 0
+}
+
+.tertiary {
+	background-color: #E5F5FD;
+	background-image: url(grad.png);
+	background-repeat: repeat-x;
+	background-position: bottom left;
+	position: relative;
+}
+.tertiary .logo {
+	width: 100%
+}
+.tertiary .logo img {
+	margin: 0 auto
+}
+
+@media (max-width: 850px) {
+
+	.home .inner,
+	.home .primary .inner {
+		width: 80%;
+		padding-left: 0
+	}
+	.home .content-wrapper {
+		clear: both;
+		overflow: hidden;
+		min-height: 146px;
+		padding-left: 250px;
+	}
+
+}
+@media (max-width: 650px) {
+	.home .inner,
+	.home .primary .inner {
+		width: 100%;
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+	.home .content-wrapper {
+		overflow: auto;
+		min-height: auto;
+		padding-left: 0;
+		padding-bottom: 148px;
+	}
+	.home .logo {
+		float: none;
+		margin: 0 auto;
+		position: absolute;
+		bottom: 0;
+		width: 100%
+	}
+	.home .logo img {
+		margin: 0 auto;
+	}
+}
+
+/* Page components */
+
+h1 {
+	margin-top: 100px;
+	font-size: 3em;
+	margin-bottom: 12px;
+}
+
+
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+input {
+	font-size: 1.5em;
+	padding: 0.3em 0.5em;
+	margin-top: 5px;
+}
+
+input.text {
+	border: 2px solid #BECED6;
+	margin-right: 7px;
+	width: 70%;
+}
+
+input.submit {
+	background-image: url(grad_rev.png);
+	background-repeat: repeat-x;
+	background-position: bottom left;
+	background-color: #C6DDAB;
+	border: 2px solid #AECA8B;
+	font-weight: bold;
+	padding: 0.25em 0.5em;
+	cursor: pointer;
+}
+
+input.submit:active {
+	background-image: url(grad.png);
+	background-position: top left;
+}
+.help,
+.breadcrumbs {
+	font-size: 0.8em;
+	margin: 0.4em 0 2em 0;
+	color: #6C7478;
+}
+
+#map {
+	height: 45vw;
+	background: black;
+	display: block;
+}
+
+.footer .inner {
+	padding-bottom: 2em;
+}
+.footer p {
+	color: rgba(0,0,0,0.3);
+	text-align: center;
+	font-size: 0.8em;
+	margin: 0
+}
+
+.unit {
+	overflow: hidden;
+	padding-left: 9vw;
+	margin-bottom: 3vw;
+}
+.unit .img {
+	float: left;
+	margin-left: -9vw;
+	height: 8vw;
+	width: 8vw;
+	padding: 0.2vw;
+	box-sizing: border-box;
+	background-color: white;
+}
+.unit .img img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
+.unit .title {
+	margin: 0 0 0.3em 0;
+	font-size: 1.8em;
+}
