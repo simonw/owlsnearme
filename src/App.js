@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { get } from 'axios';
 import { Map, TileLayer } from 'react-leaflet';
+import moment from 'moment-es6';
 
 const cleanPlaces = (places) => {
   return places.map(({bounding_box_geojson, name, display_name}) => {
@@ -88,7 +89,7 @@ class App extends Component {
     ).then(response => {
       this.setState({observations: response.data.results.map(o => {
         return {
-          time_observed_at: o.time_observed_at,
+          time_observed_at: moment(o.time_observed_at).format('MMMM Do YYYY, h:mm:ss a'),
           image_square: o.photos[0].url,
           image_medium: o.photos[0].url.replace('square.', 'medium.'),
           common_name: o.taxon.preferred_common_name,
