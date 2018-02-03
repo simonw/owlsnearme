@@ -115,10 +115,22 @@ class App extends Component {
     ).then(response => {
       const results = response.data.results;
       if (results.length) {
+        var swlat, swlon, nelat, nelon;
+        results[0].bounding_box_geojson.coordinates[0].forEach(p => {
+          let lon = p[0];
+          let lat = p[1];
+          swlat = swlat ? Math.min(swlat, lat) : lat;
+          swlon = swlon ? Math.min(swlon, lon) : lon;
+          nelat = nelat ? Math.max(nelat, lat) : lat;
+          nelon = nelon ? Math.max(nelon, lon) : lon;
+        });
         this.setState({
-          lat: parseFloat(results[0].location.split(',')[0]),
-          lng: parseFloat(results[0].location.split(',')[1]),
-          placeName: results[0].display_name
+          swlat,
+          swlon,
+          nelat,
+          nelon,
+          placeName: results[0].display_name,
+          place: results[0]
         });
         this.fetchSpeciesData();
       }
@@ -131,6 +143,26 @@ class App extends Component {
   }
   render() {
     const position = this.state.lat && [this.state.lat, this.state.lng];
+    let map = null;
+    const layers = [
+      <TileLayer
+        attribution="&amp;copy <a href=&quot;https://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />,
+      <TileLayer
+        attribution="<a href=&quot;https://www.inaturalist.org/&quot;>iNaturalist</a>"
+        url="https://api.inaturalist.org/v1/colored_heatmap/{z}/{x}/{y}.png?taxon_id=19350"
+      />
+    ];
+    if (this.state.swlat) {
+      const bounds = [
+        [this.state.swlat, this.state.swlon],
+        [this.state.nelat, this.state.nelon]
+      ];
+      map = <Map dragging={false} zoomControl={false} bounds={bounds}>{layers[0]}{layers[1]}</Map>;
+    } else if (this.state.lat) {
+      map = <Map dragging={false} zoomControl={false} center={position} zoom={12}>{layers[0]}{layers[1]}</Map>;
+    }
     return (<div>
       <section className="primary">
         <div className="inner">
@@ -152,16 +184,7 @@ class App extends Component {
               <p className="help">e.g. <a href="/?q=Brighton">Brighton</a> or <a href="/?q=San+Francisco">San Francisco</a></p>
             </div>
           </form>
-          {position && <Map center={position} zoom={12}>
-            <TileLayer
-              attribution="&amp;copy <a href=&quot;https://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <TileLayer
-              attribution="<a href=&quot;https://www.inaturalist.org/&quot;>iNaturalist</a>"
-              url="https://api.inaturalist.org/v1/colored_heatmap/{z}/{x}/{y}.png?taxon_id=19350"
-            />
-          </Map>}
+          {map}
           {this.state.observations && <div>
             {this.state.observations.map((o) => (
               <div className="species" key={o.uri}>
@@ -200,5 +223,4 @@ class App extends Component {
     </div>);
   }
 }
-
 export default App;
