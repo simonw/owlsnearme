@@ -172,7 +172,7 @@ class App extends Component {
           count: r.count,
           common_name: r.taxon.preferred_common_name,
           name: r.taxon.name,
-          image: r.taxon.default_photo.square_url.replace('_s.', '_q.'),
+          image: r.taxon.default_photo.medium_url,
           id: r.taxon.id
         }
       })});
