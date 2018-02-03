@@ -58,6 +58,50 @@ const haversine_distance_km = (lat1, lon1, lat2, lon2) => {
     return world_radius_km * 2 * Math.asin(Math.sqrt(a));
 }
 
+class CustomMap extends Component {
+  componentDidMount() {
+    this.disableMap();
+  }
+  disableMap() {
+    if (!this.leafletMap) {
+      return;
+    }
+    this.leafletMap.leafletElement.dragging.disable();
+    this.leafletMap.leafletElement.touchZoom.disable();
+    this.leafletMap.leafletElement.doubleClickZoom.disable();
+    this.leafletMap.leafletElement.scrollWheelZoom.disable();
+    this.leafletMap.leafletElement.boxZoom.disable();
+    this.leafletMap.leafletElement.keyboard.disable();
+    if (this.leafletMap.leafletElement.tap) {
+      this.leafletMap.leafletElement.tap.disable();
+    }
+  }
+  render() {
+    let dynamicProps = {
+      ref: (r) => { this.leafletMap = r; },
+      zoomControl: false
+    };
+    if (this.props.bounds) {
+      dynamicProps.bounds = this.props.bounds;
+    } else {
+      dynamicProps.center = this.props.center;
+      dynamicProps.zoom = this.props.zoom;
+    }
+    return (
+      <Map {...dynamicProps}>
+        <TileLayer
+          attribution="&amp;copy <a href=&quot;https://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />,
+        <TileLayer
+          attribution="<a href=&quot;https://www.inaturalist.org/&quot;>iNaturalist</a>"
+          url="https://api.inaturalist.org/v1/colored_heatmap/{z}/{x}/{y}.png?taxon_id=19350"
+        />
+      </Map>
+    );
+  }
+}
+
 class App extends Component {
   state = {
     standardPlaces: [],
@@ -221,45 +265,14 @@ class App extends Component {
   }
   render() {
     let map = null;
-    const layers = [
-      <TileLayer
-        attribution="&amp;copy <a href=&quot;https://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />,
-      <TileLayer
-        attribution="<a href=&quot;https://www.inaturalist.org/&quot;>iNaturalist</a>"
-        url="https://api.inaturalist.org/v1/colored_heatmap/{z}/{x}/{y}.png?taxon_id=19350"
-      />
-    ];
     if (this.state.swlat) {
       const bounds = [
         [this.state.swlat, this.state.swlng],
         [this.state.nelat, this.state.nelng]
       ];
-      map = (
-        <Map
-          dragging={false}
-          touchZoom={false}
-          doubleClickZoom={false}
-          scrollWheelZoom={false}
-          boxZoom={false}
-          zoomControl={false}
-          bounds={bounds}
-        >{layers[0]}{layers[1]}</Map>
-      );
+      map = <CustomMap bounds={bounds} />;
     } else if (this.state.lat) {
-      map = (
-        <Map
-          dragging={false}
-          touchZoom={false}
-          doubleClickZoom={false}
-          scrollWheelZoom={false}
-          boxZoom={false}
-          zoomControl={false}
-          center={[this.state.lat, this.state.lng]}
-          zoom={12}>{layers[0]}{layers[1]}
-        </Map>
-      );
+      map = <CustomMap center={[this.state.lat, this.state.lng]} zoom={12} />;
     }
     const deviceLocationButton = window.navigator.geolocation && (
       <div>
