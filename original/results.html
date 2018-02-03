@@ -21,19 +21,19 @@
 		var height = d.offsetHeight;
 		var img = document.createElement('img');
 		var api_key = "{{ gimmick.custom_template }}";
-		img.src = 'http://maps.google.com/maps/api/staticmap' + 
+		img.src = 'http://maps.google.com/maps/api/staticmap' +
 			'?mobile=true&size=' + width + 'x' + height +
-			'&sensor=true&key=' + api_key + 
+			'&sensor=true&key=' + api_key +
 			{% for result in results %}
-			'&markers=color:green|{{ result.latitude|floatformat:"5"}}' + 
-			',{{ result.longitude|floatformat:"5"}}' + 
+			'&markers=color:green|{{ result.latitude|floatformat:"5"}}' +
+			',{{ result.longitude|floatformat:"5"}}' +
 			{% endfor %}
-			'&markers=color:blue|{{ latitude|floatformat:"5"}}' + 
+			'&markers=color:blue|{{ latitude|floatformat:"5"}}' +
 			',{{ longitude|floatformat:"5"}}';
 		d.appendChild(img);
 		{% endif %}
 	});
-	
+
 	if (typeof(navigator.geolocation) != 'undefined' && !location.search) {
 		navigator.geolocation.watchPosition(onPosition, onError, {
 			enableHighAccuracy: true,
@@ -41,7 +41,7 @@
 		});
 	}
 	function onPosition(position) {
-		window.location = window.location + '?lat=' + position.coords.latitude + 
+		window.location = window.location + '?lat=' + position.coords.latitude +
 			'&lon=' + position.coords.longitude;
 	}
 	function onError(error) {
@@ -58,36 +58,29 @@
 	</script>
 </head>
 <body>
-	
+
 <div class="header">
 	<div class="section">
 		<div class="article">
-			{% if results %}
-				<h1>Owls near {{ name }}</h1>
-			{% else %}
-				<h1>Find Owls near you!</h1>
-			{% endif %}
-			
+			<h1>Owls near Presidio San Francisco</h1>
+
 			<div id="logo" class="owl"><a href="/"><img src="owl.png" alt="" ></a></div>
-			
-			{% if results %}
-				{% with results.0 as result %}
-				
+
+
 					<div class="species has-img">
-						<a href="http://www.wildlifenearyou.com{{ result.photo.get_absolute_url }}"><img src="https://farm4.staticflickr.com/3225/2925340745_1e9c95f813.jpg" width=75 height=75 alt=""></a>
-							
-						<h3>{{ result.distance.miles|floatformat:"1"|intcomma }}&nbsp;miles away</h3> 
-						
-						<p>We think your nearest owl is a <a href="http://www.wildlifenearyou.com{{ result.species.get_absolute_url }}">Great Horned Owl</a><!-- {% if result.species.latin_name %}<i>{{ result.species.latin_name }}</i>{% endif %} --> at <a href="http://www.wildlifenearyou.com{{ result.place.get_absolute_url }}">{{ result.place }}</a>! Spotted {% ifnotequal result.num_sightings 1 %}{{ result.num_spottings }}, most recently{% endifnotequal %} by <a href="http://www.wildlifenearyou.com{{ result.most_recent_trip.get_absolute_url }}">{{ result.most_recent_user }}</a> {{ result.timesince }} ago.</p>
-						
+						<a href="/"><img src="https://farm4.staticflickr.com/3225/2925340745_1e9c95f813.jpg" width=75 height=75 alt=""></a>
+
+						<h3>3&nbsp;miles away</h3>
+
+						<p>We think your nearest owl is a <a href="/">Great Horned Owl</a>
+							 at <a href="/">Some place</a>! Spotted 3 times, most recently by <a href="/">buckyboy</a> 2 months ago.</p>
+
 					</div>
-					
-				{% endwith %}
-			{% endif %}
-			
+
+
 			<form action="" method="get">
 				<div>
-					<input type="text" size="30" value="{{ name }}" title="Location" class="text" name="q">
+					<input type="text" size="30" value="" title="Location" class="text" name="q">
 					<input type="hidden" name="cc" value="">
 					<input type="submit" class="submit" value="Go">
 					<p class="help">e.g. <a href="/?q=Brighton">Brighton</a> or <a href="/?q=San+Francisco">San Francisco</a></p>
@@ -100,30 +93,22 @@
 <div class="content">
 	<div class="section">
 		<div class="article">
-			
-			{% if results %}
+
 				<h2>Other nearby Owls</h2>
 				<div id="outermap" style="display: block"><div id="map" style="max-width:640px;"></div></div>
 				<p style="font-size: 0.8em">Know of a nearer {{ gimmick.singlular }}? Add it to <a href="http://www.wildlifenearyou.com/">WildlifeNearYou.com</a>!</p>
-				
+
 				{% for result in results|slice:"1:" %}
-					
+
 					<div class="species{% if result.photo %} has-img{% endif %}">
 						{% if result.photo %}
 							<a href="http://www.wildlifenearyou.com{{ result.photo.get_absolute_url }}"><img src="{% if not result.photo.flickr_id %}http://www.wildlifenearyou.com{% endif %}{{ result.photo.thumb_75_url }}" alt=""></a>
 						{% endif %}
-						<h3>{{ result.species.common_name }}</h3> 
+						<h3>{{ result.species.common_name }}</h3>
 						<p><!-- {% if result.species.latin_name %}<i>{{ result.species.latin_name }}</i> {% endif %} -->at <a href="http://www.wildlifenearyou.com{{ result.place.get_absolute_url }}">{{ result.place }}</a> <strong>{{ result.distance.miles|floatformat:"1"|intcomma }} miles away</strong>. Spotted {% ifnotequal result.num_sightings 1 %}{{ result.num_spottings }}, most recently{% endifnotequal %} by <a href="http://www.wildlifenearyou.com{{ result.most_recent_trip.get_absolute_url }}">{{ result.most_recent_user }}</a> {{ result.timesince }} ago.</p></div>
 				{% endfor %}
-			
 
-			<p>&hellip;and more! see for yourself at <a href="http://wildlifenearyou.com/search/?q=Owls+near+{{ name }}">wildlifenearyou.com</a></p>
-			
-		{% endif %}
-		
-		{% if results %}
-			<h2 class="wlny">See more animals nearby at <a href="http://www.wildlifenearyou.com"><img src="wlny.png" alt="Wildlife Near You dot com"></a></h2>
-		{% endif %}
+			<p>&hellip;and more! see for yourself at <a href="/">wildlifenearyou.com</a></p>
 		</div>
 	</div>
 </div>
