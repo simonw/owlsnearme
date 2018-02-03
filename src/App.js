@@ -239,6 +239,10 @@ class App extends Component {
       map = (
         <Map
           dragging={false}
+          touchZoom={false}
+          doubleClickZoom={false}
+          scrollWheelZoom={false}
+          boxZoom={false}
           zoomControl={false}
           bounds={bounds}
         >{layers[0]}{layers[1]}</Map>
@@ -247,6 +251,10 @@ class App extends Component {
       map = (
         <Map
           dragging={false}
+          touchZoom={false}
+          doubleClickZoom={false}
+          scrollWheelZoom={false}
+          boxZoom={false}
           zoomControl={false}
           center={[this.state.lat, this.state.lng]}
           zoom={12}>{layers[0]}{layers[1]}
