@@ -316,7 +316,7 @@ input.submit:active {
 	color: rgba(59, 41, 10, 0.8)
 }
 .observation .observation-species {
-	color: rgba(59, 41, 10, 0.3);
+	color: rgba(59, 41, 10, 0.4);
 	font-style: italic;
 	display: block;
 	font-size: 0.8em
@@ -338,12 +338,13 @@ input.submit:active {
 }
 .observation a.verify:link,
 .observation a.verify:visited {
-	cursor: hand;
+	cursor: pointer;
 }
 .observation a.verify:hover,
 .observation a.verify:focus,
 .observation a.verify:active {
 	color: rgba(255, 255, 255, 1);
+	cursor: pointer;
 }
 .observation .verify.help-needed {
 	background-color: #B04C5E;
