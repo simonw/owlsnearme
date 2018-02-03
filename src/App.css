@@ -22,3 +22,9 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+
+.leaflet-container {
+    height: 400px;
+    width: 100%;
+}

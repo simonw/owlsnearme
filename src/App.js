@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { get } from 'axios';
+import { Map, TileLayer } from 'react-leaflet';
 
 const cleanPlaces = (places) => {
   return places.map(({bounding_box_geojson, name, display_name}) => {
@@ -84,17 +85,27 @@ class App extends Component {
     });
   }
   render() {
+    const position = [this.state.lat, this.state.lng];
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          <pre>
+        <Map center={position} zoom={12}>
+          <TileLayer
+            attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <TileLayer
+            attribution="<a href=&quot;https://www.inaturalist.org/&quot;>iNaturalist</a>"
+            url="https://api.inaturalist.org/v1/colored_heatmap/{z}/{x}/{y}.png?taxon_id=19350"
+          />
+        </Map>
+        <pre>
           {JSON.stringify(this.state, null, 2)}
-          </pre>
-        </p>
+        </pre>
+
       </div>
     );
   }
