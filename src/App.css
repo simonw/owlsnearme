@@ -2,3 +2,19 @@
     height: 400px;
     width: 100%;
 }
+body {
+  padding: 2em;
+}
+form {
+  margin: 1em 0;
+}
+input[type=search] {
+  width: 60%;
+  padding: 3px;
+  font-size: 1.5em;
+  margin-right: 10px;
+}
+input[type=submit] {
+  padding: 3px;
+  font-size: 1.5em;
+}
