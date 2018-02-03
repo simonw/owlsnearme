@@ -272,10 +272,10 @@ class App extends Component {
       </section>
       <section className="footer">
         <div className="inner">
-          <p class="meta">by <a href="https://www.inaturalist.org/people/natbat">Natalie Downe</a> and <a href="https://www.inaturalist.org/people/simonw">Simon Willison</a> using data from <a href="https://www.inaturalist.org/">iNaturalist</a></p>
+          <p className="meta">by <a href="https://www.inaturalist.org/people/natbat">Natalie Downe</a> and <a href="https://www.inaturalist.org/people/simonw">Simon Willison</a> using data from <a href="https://www.inaturalist.org/">iNaturalist</a></p>
         </div>
       </section>
-      {window.localStorage.getItem('debug') && <section>
+      {window.localStorage.getItem('debug') && <section class="tertiary">
         <div className="inner">
           <h2>Debug information</h2>
           <pre>
