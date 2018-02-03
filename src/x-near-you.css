@@ -331,9 +331,7 @@ input.submit:active {
 	font-size: 0.8em
 }
 
-.observation .verify,
-.observation a.verify:link,
-.observation a.verify:visited {
+.observation .verify {
 	display: inline-block;
 	margin: 0.25rem 0;
 	text-transform: uppercase;
@@ -341,6 +339,10 @@ input.submit:active {
 	border-radius: 0.25rem;
 	padding: 0.25rem;
 	background-color: #2D2663;
+}
+.observation .verify,
+.observation a.verify:link,
+.observation a.verify:visited {
 	color: white;
 	color: rgba(255, 255, 255, 0.8);
 	text-decoration: none;
