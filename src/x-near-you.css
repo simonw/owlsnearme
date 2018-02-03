@@ -99,7 +99,8 @@ section {
 .inner {
 	width: 70%;
 	margin: 0 auto;
-	padding: 1px;
+	padding: 1em;
+	box-sizing: border-box;
 }
 
 .primary {
@@ -215,11 +216,18 @@ section {
 }
 
 h1 {
-	margin-top: 100px;
+	margin-top: 2em;
 	font-size: 3em;
-	margin-bottom: 12px;
+	margin-bottom: 0.5em;
 }
-
+h2 {
+	font-size: 2.6em;
+	margin-bottom: 0.7em;
+	margin-top: 1em;
+}
+h3 {
+	font-size: 2em;
+}
 
 form {
 	margin: 0;
@@ -258,12 +266,12 @@ input.submit:active {
 }
 
 .species-list {
-	padding-bottom: 2em;
+	padding: 2em 0;
 	overflow: hidden;
 	width: 100%
 }
 .species-list .species {
-	width: 400px;
+	width: 200px;
 	float: left;
 	margin-left: 2vw;
 	background: yellow;
@@ -273,19 +281,16 @@ input.submit:active {
 }
 
 .observation {
-	border: 1px solid white;
-}
-.observation {
 	overflow: hidden;
-	padding-left: 9vw;
-	margin-bottom: 3vw;
+	padding-left: 120px;
+	margin-bottom: 2em;
 }
 .observation .img {
 	float: left;
-	margin-left: -9vw;
-	height: 8vw;
-	width: 8vw;
-	padding: 0.2vw;
+	margin-left: -120px;
+	height: 100px;
+	width: 100px;
+	padding: 2px;
 	box-sizing: border-box;
 	background-color: white;
 }
@@ -297,4 +302,7 @@ input.submit:active {
 .observation .title {
 	margin: 0 0 0.3em 0;
 	font-size: 1.8em;
+}
+.verify {
+	
 }
