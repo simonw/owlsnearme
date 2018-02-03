@@ -90,7 +90,7 @@ class App extends Component {
         return {
           time_observed_at: o.time_observed_at,
           image_square: o.photos[0].url,
-          image_medium: o.photos[0].url.replace('square.jpg', 'medium.jpg'),
+          image_medium: o.photos[0].url.replace('square.', 'medium.'),
           common_name: o.taxon.preferred_common_name,
           name: o.taxon.name,
           uri: o.uri,
