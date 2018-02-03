@@ -145,6 +145,21 @@ class App extends Component {
       q: ev.target.value
     });
   }
+  onDeviceLocationClick() {
+    window.navigator.geolocation.getCurrentPosition((position) => {
+      this.setState({
+        swlat: null,
+        swlng: null,
+        nelat: null,
+        nelng: null,
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }, () => {
+        this.fetchSpeciesData();
+      });
+      this.fetchPlaceData(position.coords.latitude, position.coords.longitude);
+    });
+  }
   render() {
     const position = this.state.lat && [this.state.lat, this.state.lng];
     let map = null;
@@ -167,6 +182,16 @@ class App extends Component {
     } else if (this.state.lat) {
       map = <Map dragging={false} zoomControl={false} center={position} zoom={12}>{layers[0]}{layers[1]}</Map>;
     }
+    const deviceLocationButton = window.navigator.geolocation && (
+      <div>
+        <input
+          type="button"
+          className="submit"
+          value="Use device location"
+          onClick={this.onDeviceLocationClick.bind(this)}
+        />
+      </div>
+    );
     return (<div>
       <section className="primary">
         <div className="inner">
@@ -190,6 +215,7 @@ class App extends Component {
                 <input type="submit" className="submit" value="Go" />
                 <p className="help">e.g. <a href="/?q=Brighton">Brighton</a> or <a href="/?q=San+Francisco">San Francisco</a></p>
               </div>
+              {deviceLocationButton}
             </form>
             {map}
             {this.state.observations && <div>
