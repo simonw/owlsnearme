@@ -214,13 +214,14 @@ class App extends Component {
            using data from <a href="https://www.inaturalist.org/">iNaturalist</a></p>
         </div>
       </section>
-      <section>
+      {window.localStorage.getItem('debug') && <section>
         <div className="inner">
-        <h2>Debug information</h2>
-        {window.localStorage.getItem('debug') && <pre>
-          {JSON.stringify(this.state, null, 2)}
-        </pre>}
-      </section>
+          <h2>Debug information</h2>
+          <pre>
+            {JSON.stringify(this.state, null, 2)}
+          </pre>
+        </div>
+      </section>}
     </div>);
   }
 }
