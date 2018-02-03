@@ -244,6 +244,12 @@ class App extends Component {
               {deviceLocationButton}
             </div>
           </form>
+        </div>
+      </section>
+
+      <section className="secondary">
+        <div className="inner">
+          
           {map}
           {this.state.observations && <div>
             {this.state.observations.map((o) => (
@@ -270,6 +276,7 @@ class App extends Component {
           </div>}
         </div>
       </section>
+
       <section className="footer">
         <div className="inner">
           <p className="meta">by <a href="https://www.inaturalist.org/people/natbat">Natalie Downe</a> and <a href="https://www.inaturalist.org/people/simonw">Simon Willison</a> using data from <a href="https://www.inaturalist.org/">iNaturalist</a></p>
