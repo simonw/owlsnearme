@@ -151,6 +151,25 @@ class App extends Component {
             url="https://api.inaturalist.org/v1/colored_heatmap/{z}/{x}/{y}.png?taxon_id=19350"
           />
         </Map>}
+        {this.state.observations && <div>
+          {this.state.observations.map((o) => (
+            <div className="species" key={o.uri}>
+              <a href={o.uri}><img src={o.image_medium} alt={o.common_name} /></a>
+              <h3>{o.common_name}</h3>
+              <p><em>{o.name}</em> spotted by {o.user_name || o.user_login } on {o.time_observed_at}</p>
+            </div>
+          ))}
+        </div>}
+        {this.state.species && <div>
+          <h2>Owls you might see here...</h2>
+          {this.state.species.map((s) => (
+            <div className="species" key={s.id}>
+              <a href={`https://www.inaturalist.org/species/${s.id}`}><img src={s.image} alt={s.common_name} /></a>
+              <h3>{s.common_name}</h3>
+              <p><em>{s.name}</em> spotted {s.count} times</p>
+            </div>
+          ))}
+        </div>}
         <pre>
           {JSON.stringify(this.state, null, 2)}
         </pre>

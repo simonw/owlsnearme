@@ -18,3 +18,21 @@ input[type=submit] {
   padding: 3px;
   font-size: 1.5em;
 }
+
+.species img {
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
+  float: left;
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+.species {
+  margin-top: 1em;
+  clear: both;
+}
+
+h2 {
+  clear: both;
+  border-bottom: 1px solid #ccc;
+}
