@@ -107,7 +107,7 @@ class App extends Component {
   onSubmit(ev) {
     ev.preventDefault();
     get(
-      'http://api.inaturalist.org/v1/places/autocomplete', {
+      'https://api.inaturalist.org/v1/places/autocomplete', {
         params: {
           q: this.state.q
         }
@@ -143,7 +143,7 @@ class App extends Component {
         </form>
         {position && <Map center={position} zoom={12}>
           <TileLayer
-            attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+            attribution="&amp;copy <a href=&quot;https://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <TileLayer
