@@ -241,7 +241,7 @@ class App extends Component {
                 <p>
                   <em>{o.name}</em> spotted by {o.user_name || o.user_login }
                   {o.distance_km && <span>&nbsp;{`${(o.distance_km * (1000/1600)).toFixed(1)} miles away`}&nbsp;</span>}
-                  on {o.time_observed_at}
+                  in {o.place_guess} on {o.time_observed_at}
                 </p>
               </div>
             ))}
