@@ -10,6 +10,43 @@ const cleanPlaces = (places) => {
   });
 }
 
+const cleanPlace = place => {
+  var swlat, swlng, nelat, nelng, lat, lng;
+  lat = parseFloat(place.location.split(',')[0]);
+  lng = parseFloat(place.location.split(',')[0]);
+  if (place.bounding_box_geojson) {
+    place.bounding_box_geojson.coordinates[0].forEach(p => {
+      let lng = p[0];
+      let lat = p[1];
+      swlat = swlat ? Math.min(swlat, lat) : lat;
+      swlng = swlng ? Math.min(swlng, lng) : lng;
+      nelat = nelat ? Math.max(nelat, lat) : lat;
+      nelng = nelng ? Math.max(nelng, lng) : lng;
+    });
+  }
+  return {
+    swlat,
+    swlng,
+    nelat,
+    nelng,
+    lat,
+    lng,
+    displayName: place.display_name,
+    shortName: place.name,
+    id: place.id
+  }
+}
+
+const parseQueryString = (s) => {
+  return s.slice(1).split('&').map((queryParam) => {
+    let pair = queryParam.split('=');
+    return {key: pair[0], value: pair[1]};
+  }).reduce((query, pair) => {
+    pair.key && (query[pair.key] = pair.value);
+    return query;
+  }, {});
+}
+
 const haversine_distance_km = (lat1, lon1, lat2, lon2) => {
     const world_radius_km = 6371;
     const p = Math.PI / 180;
@@ -26,6 +63,7 @@ class App extends Component {
     standardPlaces: [],
     communityPlaces: [],
     placeName: null,
+    places: [],
     /* Tokyo:
     lat: 35.66,
     lng: 139.781
@@ -122,8 +160,28 @@ class App extends Component {
       })});
     });
   }
+  setPlace(placeId) {
+    get(
+      `https://api.inaturalist.org/v1/places/${placeId}`
+    ).then(response => {
+      const place = cleanPlace(response.data.results[0]);
+      this.setState({
+        swlat: place.swlat,
+        swlng: place.swlng,
+        nelat: place.nelat,
+        nelng: place.nelng,
+        placeName: place.displayName
+      }, () => {
+        this.fetchSpeciesData();
+      });
+    });
+  }
   componentDidMount() {
-    this.fetchSpeciesData();
+    const bits = parseQueryString(window.location.search);
+    if (bits.place) {
+      this.setPlace(bits.place);
+    }
+    this.setState({bits});
   }
   onSubmit(ev) {
     ev.preventDefault();
@@ -134,28 +192,11 @@ class App extends Component {
         }
       }
     ).then(response => {
-      const results = response.data.results;
-      if (results.length) {
-        var swlat, swlng, nelat, nelng;
-        results[0].bounding_box_geojson.coordinates[0].forEach(p => {
-          let lng = p[0];
-          let lat = p[1];
-          swlat = swlat ? Math.min(swlat, lat) : lat;
-          swlng = swlng ? Math.min(swlng, lng) : lng;
-          nelat = nelat ? Math.max(nelat, lat) : lat;
-          nelng = nelng ? Math.max(nelng, lng) : lng;
-        });
-        this.setState({
-          swlat,
-          swlng,
-          nelat,
-          nelng,
-          placeName: results[0].display_name,
-          place: results[0]
-        }, () => {
-          this.fetchSpeciesData();
-        });
-      }
+      const places = response.data.results.filter(
+        r => r.bounding_box_geojson
+      ).map(cleanPlace);
+      this.setState({places});
+      // this.fetchSpeciesData();
     });
   }
   onTextChange(ev) {
@@ -240,6 +281,13 @@ class App extends Component {
                 value={this.state.q || ''}
               />
               <input type="submit" className="submit" value="Go" />
+              {this.state.places && <div>
+                {this.state.places.map(place => {
+                  return <div>
+                    <a href={`?place=${place.id}`}>{place.displayName}</a>
+                  </div>
+                })}
+              </div>}
               <p className="meta">e.g. <a href="/?q=Brighton">Brighton</a> or <a href="/?q=San+Francisco">San Francisco</a></p>
               {deviceLocationButton}
             </div>
@@ -288,7 +336,7 @@ class App extends Component {
           <p className="meta">by <a href="https://www.inaturalist.org/people/natbat">Natalie Downe</a> and <a href="https://www.inaturalist.org/people/simonw">Simon Willison</a> using data from <a href="https://www.inaturalist.org/">iNaturalist</a></p>
         </div>
       </section>
-      {window.localStorage.getItem('debug') && <section class="tertiary">
+      {window.localStorage.getItem('debug') && <section className="tertiary">
         <div className="inner">
           <h2>Debug information</h2>
           <pre>
