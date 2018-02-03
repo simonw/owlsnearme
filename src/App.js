@@ -244,31 +244,8 @@ class App extends Component {
               {deviceLocationButton}
             </div>
           </form>
-        </div>
-      </section>
 
-      <section className="tertiary map">
-        {map}
-      </section>
-
-      <section className="secondary">
-        <div className="inner">
-
-
-          {this.state.observations && <div>
-            {this.state.observations.map((o) => (
-              <div className="species" key={o.uri}>
-                <a href={o.uri}><img src={o.image_medium} alt={o.common_name} /></a>
-                <h3>{o.common_name}</h3>
-                <p>
-                  <em>{o.name}</em> spotted by {o.user_name || o.user_login }
-                  {o.distance_km && <span>&nbsp;{`${(o.distance_km * (1000/1600)).toFixed(1)} miles away`}&nbsp;</span>}
-                  in {o.place_guess} on {o.time_observed_at}
-                </p>
-              </div>
-            ))}
-          </div>}
-          {this.state.species && <div>
+          {this.state.species && <div className="species-list">
             {/* Species list */}
             {this.state.species.map((s) => (
               <div className="species" key={s.id}>
@@ -278,8 +255,32 @@ class App extends Component {
               </div>
             ))}
           </div>}
+
         </div>
       </section>
+
+      <section className="tertiary map">
+        {map}
+      </section>
+
+      {this.state.observations && <section className="secondary">
+        <div className="inner">
+
+          <h2>Recent Owls spotted nearby</h2>
+
+            {this.state.observations.map((o) => (
+              <div className="observation" key={o.uri}>
+                <a href={o.uri}><img src={o.image_medium} alt={o.common_name} /></a>
+                <h3 className="title">{o.common_name}</h3>
+                <p>
+                  <em>{o.name}</em> spotted by {o.user_name || o.user_login }
+                  {o.distance_km && <span>&nbsp;{`${(o.distance_km * (1000/1600)).toFixed(1)} miles away`}&nbsp;</span>}
+                  in {o.place_guess} on {o.time_observed_at}
+                </p>
+              </div>
+            ))}
+        </div>
+      </section>}
 
       <section className="footer">
         <div className="inner">

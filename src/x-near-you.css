@@ -209,13 +209,16 @@ section {
 	height: 45vw;
 	display: block;
 }
+.leaflet-container {
+  height: 400px;
+  width: 100%;
+}
 
 h1 {
 	margin-top: 100px;
 	font-size: 3em;
 	margin-bottom: 12px;
 }
-
 
 
 form {
@@ -254,15 +257,30 @@ input.submit:active {
 	margin: 0.4em 0 2em 0;
 }
 
-.species {
+.species-list {
+	padding-bottom: 2em;
+	overflow: hidden;
+	width: 100%
+}
+.species-list .species {
+	width: 400px;
+	float: left;
+	margin-left: 2vw;
+	background: yellow;
+}
+.species-list .species:first-child {
+	margin-left: 0;
+}
+
+.observation {
 	border: 1px solid white;
 }
-.unit {
+.observation {
 	overflow: hidden;
 	padding-left: 9vw;
 	margin-bottom: 3vw;
 }
-.unit .img {
+.observation .img {
 	float: left;
 	margin-left: -9vw;
 	height: 8vw;
@@ -271,17 +289,12 @@ input.submit:active {
 	box-sizing: border-box;
 	background-color: white;
 }
-.unit .img img {
+.observation .img img {
 	object-fit: cover;
 	width: 100%;
 	height: 100%;
 }
-.unit .title {
+.observation .title {
 	margin: 0 0 0.3em 0;
 	font-size: 1.8em;
-}
-
-.leaflet-container {
-  height: 400px;
-  width: 100%;
 }
