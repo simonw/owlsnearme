@@ -259,7 +259,7 @@ class App extends Component {
             ))}
           </div>}
           {this.state.species && <div>
-            // Species list
+            {/* Species list */}
             {this.state.species.map((s) => (
               <div className="species" key={s.id}>
                 <a href={`https://www.inaturalist.org/species/${s.id}`}><img src={s.image} alt={s.common_name} /></a>
