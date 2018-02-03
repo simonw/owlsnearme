@@ -247,10 +247,14 @@ class App extends Component {
         </div>
       </section>
 
+      <section className="tertiary map">
+        {map}
+      </section>
+
       <section className="secondary">
         <div className="inner">
-          
-          {map}
+
+
           {this.state.observations && <div>
             {this.state.observations.map((o) => (
               <div className="species" key={o.uri}>

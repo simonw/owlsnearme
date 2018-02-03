@@ -95,11 +95,11 @@ a img {
 
 /* Page structure */
 section {
-	padding: 1px;
 }
 .inner {
 	width: 70%;
 	margin: 0 auto;
+	padding: 1px;
 }
 
 .primary {
@@ -190,7 +190,21 @@ section {
 
 
 /* Page components */
-
+.map {
+		background-color: #B04C5E;
+		color: #FFFFFF;
+}
+.map a:link,
+.map a:visited {
+	color: #000000;
+	color: rgba(0, 0, 0, 0.8)
+}
+.map a:hover,
+.map a:focus,
+.map a:active  {
+	color: #000000;
+	color: rgba(0, 0, 0, 1)
+}
 #map {
 	height: 45vw;
 	display: block;
