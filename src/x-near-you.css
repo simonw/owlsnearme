@@ -64,7 +64,7 @@ body {
 	color: #FFFFFF;
 	margin: 0;
 	padding: 0;
-	font-family: Calibri, "Helvetica Neue", sans-serif;
+	font-family: "Telefon", Sans-Serif;
 	font-size: 16px;
 	line-height: 1.25;
 }
@@ -266,18 +266,39 @@ input.submit:active {
 }
 
 .species-list {
-	padding: 2rem 0;
-	overflow: hidden;
-	width: 100%
+	padding: 2em 0;
+	display: grid;
+	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: 2vw;
 }
 .species-list .species {
-	width: 200px;
-	float: left;
-	margin-left: 2vw;
-	background: yellow;
+	background: blue;
 }
-.species-list .species:first-child {
-	margin-left: 0;
+.species .species-content {
+	width: 100%;
+	background-color: red;
+}
+.species .img {
+	
+}
+@media (max-width: 950px) {
+	.species-list {
+		grid-template-rows: 1fr 1fr;
+		grid-template-columns: 1fr 1fr;
+	}
+	.species-list .species {
+		background: lime;
+	}
+}
+@media (max-width: 500px) {
+	.species-list {
+		grid-template-rows: 1fr;
+		grid-template-columns: 1fr;
+	}
+	.species-list .species {
+		background: yellow;
+	}
 }
 
 .observation {

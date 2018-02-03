@@ -327,9 +327,11 @@ class App extends Component {
             {/* Species list */}
             {this.state.species.map((s) => (
               <div className="species" key={s.id}>
-                <a href={`https://www.inaturalist.org/species/${s.id}`}><img src={s.image} alt={s.common_name} /></a>
-                <h3>{s.common_name}</h3>
-                <p><em>{s.name}</em> spotted {s.count} times</p>
+                <div class="species-content">
+                  <div class="img"><a href={`https://www.inaturalist.org/species/${s.id}`}><img src={s.image} /></a></div>
+                  <h3 className="title">{s.common_name} <em class="species-name">{s.name}</em></h3>
+                </div>
+                <p>Spotted {s.count} times</p>
               </div>
             ))}
           </div>}
