@@ -118,24 +118,25 @@ class App extends Component {
     ).then(response => {
       const results = response.data.results;
       if (results.length) {
-        var swlat, swlon, nelat, nelon;
+        var swlat, swlng, nelat, nelng;
         results[0].bounding_box_geojson.coordinates[0].forEach(p => {
-          let lon = p[0];
+          let lng = p[0];
           let lat = p[1];
           swlat = swlat ? Math.min(swlat, lat) : lat;
-          swlon = swlon ? Math.min(swlon, lon) : lon;
+          swlng = swlng ? Math.min(swlng, lng) : lng;
           nelat = nelat ? Math.max(nelat, lat) : lat;
-          nelon = nelon ? Math.max(nelon, lon) : lon;
+          nelng = nelng ? Math.max(nelng, lng) : lng;
         });
         this.setState({
           swlat,
-          swlon,
+          swlng,
           nelat,
-          nelon,
+          nelng,
           placeName: results[0].display_name,
           place: results[0]
+        }, () => {
+          this.fetchSpeciesData();
         });
-        this.fetchSpeciesData();
       }
     });
   }
@@ -159,8 +160,8 @@ class App extends Component {
     ];
     if (this.state.swlat) {
       const bounds = [
-        [this.state.swlat, this.state.swlon],
-        [this.state.nelat, this.state.nelon]
+        [this.state.swlat, this.state.swlng],
+        [this.state.nelat, this.state.nelng]
       ];
       map = <Map dragging={false} zoomControl={false} bounds={bounds}>{layers[0]}{layers[1]}</Map>;
     } else if (this.state.lat) {
