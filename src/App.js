@@ -528,8 +528,8 @@ class App extends Component {
 
             {this.state.observations.map((o) => (
               <div className="observation" key={o.uri}>
-                <div className="img"><a href={o.uri}><img src={o.image_medium} alt="view observation of {o.common_name} on iNaturalist" /></a></div>
-                <h3 className="title"><a href={o.uri}>{o.common_name}</a> <em className="observation-species">{o.name}</em></h3>
+                <div className="img"><a href={o.uri}><img src={o.image_medium} alt="View observation of {o.common_name} on iNaturalist" /></a></div>
+                <h3 className="title"><a href={o.uri}>{o.common_name || o.name}</a> <em className="observation-species">{o.name}</em></h3>
                 <p>Spotted by <a href={`https://www.inaturalist.org/people/${o.user_login}`}>{o.user_name || o.user_login }</a> {o.distance_km && <span>&nbsp;{`${(o.distance_km * (1000/1600)).toFixed(1)} miles away`}&nbsp;</span>} in {o.place_guess} <span title={o.time_observed_at}>{o.time_observed_ago}</span>.</p>
                 <p>
                   {o.is_research ? (
