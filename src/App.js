@@ -294,18 +294,17 @@ class App extends Component {
     }
     const deviceLocationButton = window.navigator.geolocation && (
       <div>
-        <input
+        <button
           type="button"
-          className="submit"
-          value="Use device location"
-          onClick={this.onDeviceLocationClick.bind(this)}
-        />
+          className="submit">
+          onClick={this.onDeviceLocationClick.bind(this)}>Locate me!</button>
+
       </div>
     );
     return (<div>
       <section className="primary">
         <div className="inner">
-          <h1>Find owls near me!</h1>
+          <h1>Find owls near&nbsp;me!</h1>
 
           <form action="/" method="GET" onSubmit={this.onSubmit.bind(this)}>
             <div>
@@ -319,7 +318,7 @@ class App extends Component {
                 placeholder="Search for a place, e.g. San Francisco"
                 value={this.state.q || ''}
               />
-              <input type="submit" className="submit" value="Go" />
+              <button type="submit" className="submit">Go</button>
               {this.state.places.length !== 0 && <div>
                 {this.state.places.map(place => {
                   return <div>
