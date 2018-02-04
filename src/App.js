@@ -12,6 +12,11 @@ const cleanPlaces = (places) => {
   });
 }
 
+const mostRecentObservation = (taxon_id, observations) => {
+  const matches = observations.filter((o) => o.taxon_id === taxon_id);
+  return (matches.length) ? matches[0] : null;
+}
+
 const LoadingDots = (props) => {
   // Adapted from http://samherbert.net/svg-loaders/ by @samh
   return (
@@ -291,9 +296,13 @@ class App extends Component {
           image_medium: o.photos[0].url.replace('square.', 'medium.'),
           common_name: o.taxon.preferred_common_name,
           name: o.taxon.name,
+          taxon_id: o.taxon.id,
           uri: o.uri,
           user_name: o.user.name,
           user_login: o.user.login,
+          user_id: o.user.id,
+          user_avatar_medium: `https://static.inaturalist.org/attachments/users/icons/${o.user.id}/medium.jpg`,
+          user_avatar_thumb: `https://static.inaturalist.org/attachments/users/icons/${o.user.id}/thumb.jpg`,
           place_guess: o.place_guess,
           is_research: o.quality_grade === 'research',
           distance_km
@@ -476,8 +485,18 @@ class App extends Component {
 
           {this.state.species.length !== 0 && <div className={`species-list ${this.state.species.length <= 4 ? 'species-list-mini' : 'species-list-maxi'}`}>
             {/* Species list */}
-            {this.state.species.map((s) => (
-              <div className="species" key={s.id}>
+            {this.state.species.map((s) => {
+              let observationDisplay = null;
+              let observationFullDisplay = null;
+              let observation = mostRecentObservation(s.id, this.state.observations);
+              if (observation) {
+                observationDisplay = `, most recently ${observation.time_observed_ago} ago by ${observation.user_login}`;
+                observationFullDisplay = <div>
+                  <img src={observation.user_avatar_thumb} alt={observation.user_login} />
+                  <a href={observation.uri}>{observation.time_observed_ago} by {observation.user_name || observation.user_login}</a>
+                </div>;
+              }
+              return <div className="species" key={s.id}>
                 <div className="species-content">
                   <div className="img"><a href={`https://www.inaturalist.org/taxa/${s.id}`}><img src={s.image} alt={s.common_name} /></a></div>
                   <div className="title">
@@ -489,9 +508,10 @@ class App extends Component {
                 </div>
                 <div className="species-context">
                   <p>Spotted {s.count} {`${s.count == 1 ? 'time' : 'times'}`} nearby</p>
+                  {observationFullDisplay}
                 </div>
               </div>
-            ))}
+            })}
           </div>}
 
         </div>
