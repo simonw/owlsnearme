@@ -75,8 +75,7 @@ const cleanPlace = place => {
     id: place.id,
     placeType: place.place_type,
     displayName: place.display_name,
-    shortName: place.name,
-    id: place.id
+    shortName: place.name
   }
 }
 
@@ -191,12 +190,14 @@ class App extends Component {
         }
       }
     ).then(response => {
+      const places = cleanPlaces(response.data.results.standard);
+      const placeName = places.slice(-1)[0].shortName;
       this.setState({
-        standardPlaces: cleanPlaces(response.data.results.standard).filter(
-          p => p.placeType !== GEO_PLANET_CONTINENT
+        standardPlaces: places.filter(
+          p => p.place_type !== GEO_PLANET_CONTINENT
         ),
         communityPlaces: cleanPlaces(response.data.results.community),
-        placeName: cleanPlaces(response.data.results.standard).slice(-1)[0].name
+        placeName
       });
     });
   }
@@ -309,6 +310,9 @@ class App extends Component {
     });
   }
   loadPlaceCrumbs(placeIds) {
+    if (!placeIds || placeIds.length === 0) {
+      return;
+    }
     get(
       `https://api.inaturalist.org/v1/places/${placeIds.join(',')}`
     ).then(response => {
@@ -501,7 +505,7 @@ class App extends Component {
                   </div>
                 </div>
                 <div className="species-context">
-                  <p>Spotted {s.count} {`${s.count == 1 ? 'time' : 'times'}`} nearby</p>
+                  <p>Spotted {s.count} {`${s.count === 1 ? 'time' : 'times'}`} nearby</p>
                   {observationFullDisplay}
                 </div>
               </div>
