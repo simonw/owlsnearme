@@ -271,16 +271,31 @@ input.submit:active {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: 2vw;
 }
-.species-list .species {
-}
+
 .species .species-content {
 	width: 100%;
-	background-color: red;
 	position: relative;
 }
+.species .img {
+	width: 100%;
+	height: 20vw;
+	margin-top: 0.4375rem;
+	box-sizing: border-box;
+	background-color: white;
+}
+.species .img a:link,
+.species .img a:visited,
+.species .img a:hover,
+.species .img a:focus,
+.species .img a:active {
+	color: white;
+	text-decoration: none;
+}
 .species .img img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
 	display: block;
-	max-width: 100%
 }
 .species .title {
 	position: absolute;
@@ -292,28 +307,47 @@ input.submit:active {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	font-size: 1.125rem;
+	text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }
 .species .species-name {
 	font-style: italic;
 	display: block;
 	font-size: 1rem;
 	margin-top: 0.1rem;
-	color: rgba(255, 255, 255, 0.8)
+	color: rgba(255, 255, 255, 0.8);
+	text-shadow: none;
 }
 .species .species-context {
+	font-size: 0.75rem;
 	padding: 0.5rem;
-	color: rgba(255, 255, 255, 0.8)
+	color: rgba(255, 255, 255, 0.6)
 }
 @media (max-width: 950px) {
 	.species-list {
 		grid-template-columns: 1fr 1fr;
 	}
+	.species .img {
+		height: 33vw;
+	}
+}
+@media (max-width: 850px) {
+	.species .img {
+		height: 40vw;
+	}
+}
+@media (max-width: 650px) {
+
 }
 @media (max-width: 500px) {
 	.species-list {
 		grid-template-columns: 1fr;
 	}
+	.species .img {
+		height: 85vw;
+	}
 }
+
+
 
 .observation {
 	overflow: hidden;
