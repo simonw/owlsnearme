@@ -327,7 +327,6 @@ class App extends Component {
                   </div>
                 })}
               </div>}
-              <p className="meta">e.g. <a href="/?q=Brighton">Brighton</a> or <a href="/?q=San+Francisco">San Francisco</a></p>
               {deviceLocationButton}
             </div>
           </form>
