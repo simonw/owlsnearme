@@ -95,7 +95,7 @@ class CustomMap extends Component {
         />,
         <TileLayer
           attribution="<a href=&quot;https://www.inaturalist.org/&quot;>iNaturalist</a>"
-          url="https://api.inaturalist.org/v1/colored_heatmap/{z}/{x}/{y}.png?taxon_id=19350"
+          url={`https://api.inaturalist.org/v1/colored_heatmap/{z}/{x}/{y}.png?taxon_id=${this.props.taxon_id}`}
         />
       </Map>
     );
@@ -117,7 +117,8 @@ class App extends Component {
     nelng: null,
     swlat: null,
     swlng: null,
-    q: null
+    q: null,
+    taxon_id: 19350
   }
   fetchPlaceData(lat, lng) {
     get(
@@ -161,7 +162,7 @@ class App extends Component {
     get(
       'https://api.inaturalist.org/v1/observations/species_counts', {
         params: {
-          taxon_id: 19350,
+          taxon_id: this.state.taxon_id,
           quality_grade: 'research',
           ...location
         }
@@ -180,7 +181,7 @@ class App extends Component {
     get(
       'https://api.inaturalist.org/v1/observations', {
         params: {
-          taxon_id: 19350,
+          taxon_id: this.state.taxon_id,
           order_by: 'observed_on',
           ...location,
           photos: true
@@ -234,6 +235,9 @@ class App extends Component {
     if (bits.place) {
       this.setPlace(bits.place);
     }
+    if (bits.taxon_id) {
+      this.setState({taxon_id: bits.taxon_id})
+    }
     this.setState({bits});
   }
   onSubmit(ev) {
@@ -279,9 +283,13 @@ class App extends Component {
         [this.state.swlat, this.state.swlng],
         [this.state.nelat, this.state.nelng]
       ];
-      map = <CustomMap bounds={bounds} />;
+      map = <CustomMap bounds={bounds} taxon_id={this.state.taxon_id} />;
     } else if (this.state.lat) {
-      map = <CustomMap center={[this.state.lat, this.state.lng]} zoom={12} />;
+      map = <CustomMap
+        center={[this.state.lat, this.state.lng]}
+        zoom={12}
+        taxon_id={this.state.taxon_id}
+      />;
     }
     const deviceLocationButton = window.navigator.geolocation && (
       <div>
