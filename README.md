@@ -14,6 +14,8 @@ the iNaturalist API. You can use it to find your nearest owls via browser
 geolocation or you can search for a place and see the owls that have been
 spotted in or around that location.
 
+Built by [Natalie Downe](https://twitter.com/natbat) and [Simon Willison](https://twitter.com/simonw). Favicon by [Cindy Li](https://twitter.com/cindyli).
+
 Technology used:
 
 * React, using [create-react-app](https://github.com/facebook/create-react-app)

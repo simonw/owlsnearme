@@ -592,7 +592,7 @@ class App extends Component {
 
       <section className="footer">
         <div className="inner">
-          <p className="meta">by <a href="https://www.inaturalist.org/people/natbat">Natalie Downe</a> and <a href="https://www.inaturalist.org/people/simonw">Simon Willison</a> using data from <a href="https://www.inaturalist.org/">iNaturalist</a></p>
+          <p className="meta">by <a href="https://twitter.com/natbat">Natalie Downe</a> and <a href="https://twitter.com/simonw">Simon Willison</a> using data from <a href="https://www.inaturalist.org/">iNaturalist</a></p>
         </div>
       </section>
       {window.localStorage && window.localStorage.getItem('debug') && <section className="tertiary debug">
