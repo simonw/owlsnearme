@@ -336,7 +336,7 @@ class App extends Component {
             {this.state.species.map((s) => (
               <div className="species" key={s.id}>
                 <div className="species-content">
-                  <div className="img"><a href={`https://www.inaturalist.org/taxa/${s.id}`}><img src={s.image} /></a></div>
+                  <div className="img"><a href={`https://www.inaturalist.org/taxa/${s.id}`}><img src={s.image} alt={s.common_name} /></a></div>
                   <h3 className="title">{s.common_name} <em className="species-name">{s.name}</em></h3>
                 </div>
                 <p className="species-context">Spotted {s.count} times nearby</p>
@@ -379,7 +379,7 @@ class App extends Component {
           <p className="meta">by <a href="https://www.inaturalist.org/people/natbat">Natalie Downe</a> and <a href="https://www.inaturalist.org/people/simonw">Simon Willison</a> using data from <a href="https://www.inaturalist.org/">iNaturalist</a></p>
         </div>
       </section>
-      {window.localStorage.getItem('debug') && <section className="tertiary">
+      {window.localStorage && window.localStorage.getItem('debug') && <section className="tertiary">
         <div className="inner">
           <h2>Debug information</h2>
           <pre>
