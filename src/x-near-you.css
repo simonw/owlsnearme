@@ -441,7 +441,7 @@ button {
 	left: 0;
 	width: 100%;
 	box-sizing: border-box;
-	background-color: rgba(235, 194, 122, 0.7);
+	background-color: rgba(235, 194, 122, 0.8);
 	padding: 0.5rem;
 }
 .spotting .title h3 {
@@ -462,8 +462,8 @@ button {
 	background-color: rgba(176, 76, 94, 1)
 }
 .spotting .spotting-context {
-		font-size: 0.75rem;
-		padding: 0.5rem;
+	font-size: 0.75rem;
+	padding: 0.5rem;
 }
 .spotting .verify {
 	display: block;
@@ -494,10 +494,12 @@ button {
 }
 
 @media (max-width: 950px) {
-	.species-list {
+	.species-list,
+	.spotting-list {
 		grid-template-columns: 1fr 1fr;
 	}
-	.species .img {
+	.species .img,
+	.spotting .img {
 		height: 33vw;
 	}
 	.species-list-mini .species .img {
@@ -505,7 +507,8 @@ button {
 	}
 }
 @media (max-width: 850px) {
-	.species .img {
+	.species .img,
+	.spotting .img {
 		height: 40vw;
 	}
 }
@@ -519,7 +522,8 @@ button {
 	.species-list {
 		grid-template-columns: 1fr 1fr;
 	}
-	.species-list-mini {
+	.species-list-mini,
+	.spotting-list {
 		/* used when 4 or less things */
 		grid-template-columns: 1fr;
 	}
@@ -529,7 +533,8 @@ button {
 	.species-list-maxi .title {
 		font-size: 0.875rem;
 	}
-	.species-list-mini .species .img {
+	.species-list-mini .species .img,
+	.spotting-list .img {
 		height: 85vw;
 	}
 }

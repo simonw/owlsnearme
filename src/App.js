@@ -558,7 +558,7 @@ class App extends Component {
 
           <h2>Recently spotted Owls</h2>
 
-          <div className="spotting-list">
+          <div className={`spotting-list ${this.state.species.length <= 4 ? 'spotting-list-mini' : 'spotting-list-maxi'}`}>
             {this.state.observations.map((o) => (
             <div className="spotting" key={o.uri}>
               <p>
@@ -573,7 +573,7 @@ class App extends Component {
                 <div className="title">
                   <h3><a href={o.uri}>{o.common_name || o.name}</a></h3>
                   <div className="spotting-by">
-                    <div className="avatar mini"><img src='' alt='' /></div>
+                    <div className="avatar mini"><img src={o.user_avatar_thumb} alt='' /></div>
                     <p className="spotting-person">Spotted by <a href={`https://www.inaturalist.org/people/${o.user_login}`}>{o.user_name || o.user_login }</a> </p>
                   </div>
                 </div>
@@ -584,6 +584,7 @@ class App extends Component {
             </div>
             ))}
           </div>
+
         </div>
       </section>}
 
