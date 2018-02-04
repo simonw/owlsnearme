@@ -360,7 +360,7 @@ class App extends Component {
     this.setState({bits});
     window.onpopstate = () => {
       const bits2 = parseQueryString(window.location.search);
-      if (bits2.place && bits2.place != this.state.place_id) {
+      if (bits2.place && bits2.place !== this.state.place_id) {
         this.onPlaceClick(bits2.place, true);
       }
     };
