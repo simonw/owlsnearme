@@ -10,6 +10,44 @@ const cleanPlaces = (places) => {
   });
 }
 
+const LoadingDots = (props) => {
+  // Adapted from http://samherbert.net/svg-loaders/ by @samh
+  return (
+    <svg style={props.style} width={props.width || 120} height={props.height || 30} viewBox="0 0 120 30" fill={props.fill || '#fff'}>
+      <circle cx="15" cy="15" r="15">
+          <animate attributeName="r" from="15" to="15"
+                   begin="0s" dur="0.8s"
+                   values="15;9;15" calcMode="linear"
+                   repeatCount="indefinite" />
+          <animate attributeName="fill-opacity" from="1" to="1"
+                   begin="0s" dur="0.8s"
+                   values="1;.5;1" calcMode="linear"
+                   repeatCount="indefinite" />
+      </circle>
+      <circle cx="60" cy="15" r="9" fillOpacity="0.3">
+          <animate attributeName="r" from="9" to="9"
+                   begin="0s" dur="0.8s"
+                   values="9;15;9" calcMode="linear"
+                   repeatCount="indefinite" />
+          <animate attributeName="fill-opacity" from="0.5" to="0.5"
+                   begin="0s" dur="0.8s"
+                   values=".5;1;.5" calcMode="linear"
+                   repeatCount="indefinite" />
+      </circle>
+      <circle cx="105" cy="15" r="15">
+          <animate attributeName="r" from="15" to="15"
+                   begin="0s" dur="0.8s"
+                   values="15;9;15" calcMode="linear"
+                   repeatCount="indefinite" />
+          <animate attributeName="fill-opacity" from="1" to="1"
+                   begin="0s" dur="0.8s"
+                   values="1;.5;1" calcMode="linear"
+                   repeatCount="indefinite" />
+      </circle>
+    </svg>
+  );
+}
+
 const cleanPlace = place => {
   var swlat, swlng, nelat, nelng, lat, lng;
   lat = parseFloat(place.location.split(',')[0]);
@@ -119,6 +157,7 @@ class App extends Component {
   state = {
     standardPlaces: [],
     communityPlaces: [],
+    placesLoading: false,
     placeName: null,
     places: [],
     species: [],
@@ -288,6 +327,7 @@ class App extends Component {
   }
   onSubmit(ev) {
     ev.preventDefault();
+    this.setState({placesLoading: true});
     get(
       'https://api.inaturalist.org/v1/places/autocomplete', {
         params: {
@@ -298,7 +338,10 @@ class App extends Component {
       const places = response.data.results.filter(
         r => r.bounding_box_geojson
       ).map(cleanPlace);
-      this.setState({places});
+      this.setState({
+        places,
+        placesLoading: false
+      });
       // this.fetchSpeciesData();
     });
   }
@@ -380,6 +423,12 @@ class App extends Component {
                   </div>
                 })}
               </div>}
+              {this.state.placesLoading && <LoadingDots fill="#B04C5E" style={{
+                position: 'absolute',
+                top: '0.6rem',
+                right: '3rem',
+                height: '1rem'
+              }} />}
               </div>
               {deviceLocationButton}
           </form>
