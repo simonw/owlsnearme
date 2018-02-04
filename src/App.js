@@ -309,19 +309,19 @@ class App extends Component {
 
           <form action="/" method="GET" onSubmit={this.onSubmit.bind(this)}>
             <div className="search-form">
-              <label><span>Search for a place, e.g. San Francisco</span><input
+              <label><span>Search for a place</span><input
                 type="text"
                 size={30}
                 title="Location"
                 className="text"
                 name="q"
                 onChange={this.onTextChange.bind(this)}
-                placeholder="Search for a place, e.g. San Francisco"
+                placeholder="Search for a place"
                 value={this.state.q || ''}
               /></label>
 
               <button type="submit" className="submit">Go</button>
-              {this.state.places.length !== 0 && <div>
+              {this.state.places.length !== 0 && <div class="search-suggest">
                 {this.state.places.map(place => {
                   return <div>
                     <a href={`?place=${place.id}`}>{place.displayName}</a>

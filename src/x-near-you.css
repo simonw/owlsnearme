@@ -267,7 +267,27 @@ button {
 .search-form {
 	position: relative;
 	background-color: white;
-	padding: 2px 3.4rem 2px 2px;
+	padding: 2px;
+	width: 100%;
+}
+.search-suggest {
+	background-color: rgba(45, 38, 99, 0.5);
+	width: 100%;
+	margin-top: 2px;
+	padding: 0.3rem 0.5rem;
+}
+
+.search-suggest div {
+	margin-bottom: 0.25rem;
+}
+.search-form label {
+	display: block;
+	width: 100%;
+	padding-right: 3.4rem;
+	box-sizing: border-box;
+}
+.search-form input:-webkit-autofill {
+	background-color: white !important;
 }
 .search-form .submit {
 	position: absolute;
@@ -366,6 +386,9 @@ button {
 
 }
 @media (max-width: 500px) {
+	h1 {
+		font-size: 2.5em
+	}
 	.species-list {
 		grid-template-columns: 1fr;
 	}
