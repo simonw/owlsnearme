@@ -268,6 +268,7 @@ class App extends Component {
         swlng: null,
         nelat: null,
         nelng: null,
+        place_id: null,
         lat: position.coords.latitude,
         lng: position.coords.longitude
       }, () => {
