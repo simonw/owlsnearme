@@ -161,6 +161,7 @@ class App extends Component {
     communityPlaces: [],
     placesLoading: false,
     locationLoading: false,
+    speciesLoading: false,
     noPlaceResultsFor: null,
     placeName: null,
     places: [],
@@ -218,6 +219,7 @@ class App extends Component {
         radius: 50
       };
     };
+    this.setState({speciesLoading: true});
     get(
       'https://api.inaturalist.org/v1/observations/species_counts', {
         params: {
@@ -227,6 +229,7 @@ class App extends Component {
         }
       }
     ).then(response => {
+      this.setState({speciesLoading: false});
       const species = response.data.results.map(r => {
         const image = r.taxon.default_photo.medium_url;
         const bits = /.*staticflickr\.com\/\d+\/(\d+).*/.exec(image);
@@ -418,7 +421,6 @@ class App extends Component {
           Use my location
           {this.state.locationLoading && <LoadingDots fill="#fff" style={{height: '0.8rem'}} />}
         </button>
-
       </div>
     );
     const inOrNear = this.state.swlat ? 'in' : 'near';
@@ -467,6 +469,9 @@ class App extends Component {
               }} />}
               </div>
               {deviceLocationButton}
+              {this.state.speciesLoading && <div className="speciesLoading">
+                <LoadingDots style={{width: '10rem'}}/>
+              </div>}
           </form>
 
           {this.state.species.length !== 0 && <div className={`species-list ${this.state.species.length <= 4 ? 'species-list-mini' : ''}`}>

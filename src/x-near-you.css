@@ -522,3 +522,8 @@ button {
 .place-crumbs li:first-child::before {
 	content: "";
 }
+
+.speciesLoading {
+	text-align: center;
+	margin-top: 1.5rem;
+}
