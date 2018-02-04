@@ -432,6 +432,7 @@ class App extends Component {
     const newUrl = `/?place=${placeId}`;
     if (!avoidUpdatingBrowserHistory) {
       window.history.pushState(newUrl, null, newUrl);
+      window.gtag && window.gtag('event', 'page_view', window.location.href);
     }
   }
   render() {
