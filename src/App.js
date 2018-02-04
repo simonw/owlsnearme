@@ -99,7 +99,7 @@ const haversine_distance_km = (lat1, lon1, lat2, lon2) => {
 }
 
 const PlaceCrumbs = (props) => {
-  if (!props.places || !props.places.length) {
+  if (!props.places || props.places.length < 2) {
     return null;
   }
   return (
@@ -161,6 +161,7 @@ class App extends Component {
     communityPlaces: [],
     placesLoading: false,
     locationLoading: false,
+    noPlaceResultsFor: null,
     placeName: null,
     places: [],
     species: [],
@@ -332,22 +333,31 @@ class App extends Component {
     }
     this.setState({bits});
   }
-  onSubmit(ev) {
+  onPlaceSearchSubmit(ev) {
     ev.preventDefault();
-    this.setState({placesLoading: true});
+    let q = this.state.q;
+    this.setState({
+      placesLoading: true,
+      noPlaceResultsFor: null
+    });
     get(
       'https://api.inaturalist.org/v1/places/autocomplete', {
         params: {
-          q: this.state.q
+          q
         }
       }
     ).then(response => {
       const places = response.data.results.filter(
         r => r.bounding_box_geojson
       ).map(cleanPlace);
+      let noPlaceResultsFor = null;
+      if (places.length === 0) {
+        noPlaceResultsFor = q;
+      }
       this.setState({
         places,
-        placesLoading: false
+        placesLoading: false,
+        noPlaceResultsFor: noPlaceResultsFor
       });
       // this.fetchSpeciesData();
     });
@@ -414,7 +424,7 @@ class App extends Component {
         <div className="inner">
           <h1>{title}</h1>
           <PlaceCrumbs places={this.state.standardPlaces} />
-          <form action="/" method="GET" onSubmit={this.onSubmit.bind(this)}>
+          <form action="/" method="GET" onSubmit={this.onPlaceSearchSubmit.bind(this)}>
             <div className="search-form">
               <label><span>Search for a place</span><input
                 type="text"
@@ -428,6 +438,9 @@ class App extends Component {
               /></label>
 
               <button type="submit" className="submit">Go</button>
+              {this.state.noPlaceResultsFor && <div class="search-suggest">
+                <div>No places found for "{this.state.noPlaceResultsFor}"</div>
+              </div>}
               {this.state.places.length !== 0 && <div class="search-suggest">
                 {this.state.places.map(place => {
                   return <div>
