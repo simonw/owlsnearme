@@ -652,3 +652,9 @@ button {
 .debug .inner {
 	overflow: scroll;
 }
+
+.no-results-found {
+	text-align: center;
+	font-weight: bold;
+	margin-top: 0.5em;
+}

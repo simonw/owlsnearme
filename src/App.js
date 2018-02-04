@@ -467,6 +467,13 @@ class App extends Component {
     }
 
     document.title = pageTitle;
+
+    const noResultsFound = (
+      !this.state.speciesLoading &&
+      (this.state.species.length === 0) &&
+      this.state.placeName
+    );
+
     return (<div>
       <section className="primary">
         <div className="inner">
@@ -538,7 +545,7 @@ class App extends Component {
               </div>
             })}
           </div>}
-
+          {noResultsFound && <div className="no-results-found">No owls found in {this.state.placeName}</div>}
         </div>
       </section>
 
@@ -577,11 +584,6 @@ class App extends Component {
             </div>
             ))}
           </div>
-
-
-
-
-
         </div>
       </section>}
 
