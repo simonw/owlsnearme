@@ -4,9 +4,11 @@ import { get } from 'axios';
 import { Map, TileLayer } from 'react-leaflet';
 import moment from 'moment-es6';
 
+const GEO_PLANET_CONTINENT = 29;
+
 const cleanPlaces = (places) => {
-  return places.map(({bounding_box_geojson, name, display_name, id}) => {
-    return {bounding_box_geojson, name, display_name, id};
+  return places.map(({bounding_box_geojson, name, display_name, id, place_type}) => {
+    return {bounding_box_geojson, name, display_name, id, place_type};
   });
 }
 
@@ -288,6 +290,8 @@ class App extends Component {
       `https://api.inaturalist.org/v1/places/${placeIds.join(',')}`
     ).then(response => {
       let places = cleanPlaces(response.data.results);
+      // Filter out continents
+      places = places.filter((p) => p.place_type !== GEO_PLANET_CONTINENT);
       places.sort((a, b) => {
         return placeIds.indexOf(a.id) - placeIds.indexOf(b.id);
       });
