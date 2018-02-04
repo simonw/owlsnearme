@@ -6,11 +6,7 @@ import moment from 'moment-es6';
 
 const GEO_PLANET_CONTINENT = 29;
 
-const cleanPlaces = (places) => {
-  return places.map(({bounding_box_geojson, name, display_name, id, place_type}) => {
-    return {bounding_box_geojson, name, display_name, id, place_type};
-  });
-}
+const cleanPlaces = (places) => places.map(cleanPlace);
 
 const mostRecentObservation = (taxon_id, observations) => {
   const matches = observations.filter((o) => o.taxon_id === taxon_id);
@@ -76,6 +72,8 @@ const cleanPlace = place => {
     nelng,
     lat,
     lng,
+    id: place.id,
+    placeType: place.place_type,
     displayName: place.display_name,
     shortName: place.name,
     id: place.id
@@ -110,7 +108,7 @@ const PlaceCrumbs = (props) => {
   return (
     <ol className="place-crumbs meta">{props.places.map(p => {
       return (
-        <li><a href={`/?place=${p.id}`}>{p.name}</a></li>
+        <li><a href={`/?place=${p.id}`}>{p.shortName}</a></li>
       )
     })}</ol>
   );
@@ -195,7 +193,7 @@ class App extends Component {
     ).then(response => {
       this.setState({
         standardPlaces: cleanPlaces(response.data.results.standard).filter(
-          p => p.place_type !== GEO_PLANET_CONTINENT
+          p => p.placeType !== GEO_PLANET_CONTINENT
         ),
         communityPlaces: cleanPlaces(response.data.results.community),
         placeName: cleanPlaces(response.data.results.standard).slice(-1)[0].name
@@ -316,7 +314,7 @@ class App extends Component {
     ).then(response => {
       let places = cleanPlaces(response.data.results);
       // Filter out continents
-      places = places.filter((p) => p.place_type !== GEO_PLANET_CONTINENT);
+      places = places.filter((p) => p.placeType !== GEO_PLANET_CONTINENT);
       places.sort((a, b) => {
         return placeIds.indexOf(a.id) - placeIds.indexOf(b.id);
       });
