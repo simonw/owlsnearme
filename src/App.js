@@ -489,8 +489,8 @@ class App extends Component {
               let observation = mostRecentObservation(s.id, this.state.observations);
               if (observation) {
                 observationDisplay = `, most recently ${observation.time_observed_ago} ago by ${observation.user_login}`;
-                observationFullDisplay = <div>
-                  <img src={observation.user_avatar_thumb} alt={observation.user_login} />
+                observationFullDisplay = <div class="species-spotted">
+                  <div class="avatar mini"><img src={observation.user_avatar_thumb} alt='' /></div>
                   <a href={observation.uri}>{observation.time_observed_ago} by {observation.user_name || observation.user_login}</a>
                 </div>;
               }
@@ -499,9 +499,7 @@ class App extends Component {
                   <div className="img"><a href={`https://www.inaturalist.org/taxa/${s.id}`}><img src={s.image} alt={s.common_name} /></a></div>
                   <div className="title">
                     <h3>{s.common_name} <em className="species-name">{s.name}</em></h3>
-                    <p className="credit">{s.flickr_url ? (
-                    <a href={s.flickr_url}>{s.attribution}</a>
-                    ) : s.attribution}</p>
+                    <p className="credit">{s.attribution}</p>
                   </div>
                 </div>
                 <div className="species-context">
