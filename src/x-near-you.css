@@ -286,9 +286,7 @@ button {
 	padding-right: 3.4rem;
 	box-sizing: border-box;
 }
-.search-form input:-webkit-autofill {
-	background-color: white !important;
-}
+
 .search-form .submit {
 	position: absolute;
 	top: 2px;
@@ -483,9 +481,27 @@ button {
 	background-color: #B04C5E;
 }
 
-.placeCrumbs {
-	margin-bottom: 0.625em;
+.place-crumbs {
+	margin-bottom: 2rem;
+	line-height: 1.3rem;
 }
-.placeCrumbs a {
-	margin-right: 1em;
+.place-crumbs li {
+	display: inline-block;
+	margin-right: 0.5rem;
+	padding-left: 1rem;
+	position: relative;
+}
+.place-crumbs li::before {
+	content: "\203A";
+	position: absolute;
+	left: 0;
+	top: -0.1rem;
+	font-size: 1.3rem;
+	color: rgba(255,255,255, 0.5)
+}
+.place-crumbs li:first-child {
+	padding-left: 0;
+}
+.place-crumbs li:first-child::before {
+	content: "";
 }

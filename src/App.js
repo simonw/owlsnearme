@@ -63,11 +63,11 @@ const PlaceCrumbs = (props) => {
     return null;
   }
   return (
-    <p className="placeCrumbs">{props.places.map(p => {
+    <ol className="place-crumbs meta">{props.places.map(p => {
       return (
-        <a href={`/?place=${p.id}`}>{p.name}</a>
+        <li><a href={`/?place=${p.id}`}>{p.name}</a></li>
       )
-    })}</p>
+    })}</ol>
   );
 }
 
