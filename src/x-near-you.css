@@ -237,33 +237,53 @@ form {
 	margin: 0;
 	padding: 0;
 }
-
-input {
-	font-size: 15px;
-	padding: 0.3em 0.5rem;
-	margin-top: 5px;
+label {
+	overflow: hidden;
+}
+label span {
+	float: left;
+	text-indent: -5000em;
+	width: 0;
+	height: 0;
+}
+input,
+button {
+	font-size: 1.25rem;
+	padding: 0.3rem 0.5rem;
+	box-sizing: border-box;
+}
+.text {
+	border: none;
+	margin-right: 0;
+	color: rgba(45, 38, 99, 0.8)
 }
 
-input.text {
-	border: 2px solid #BECED6;
-	margin-right: 7px;
-	width: 70%;
-}
-
-input.submit {
-	background-repeat: repeat-x;
-	background-position: bottom left;
-	background-color: #C6DDAB;
-	border: 2px solid #AECA8B;
-	font-weight: bold;
-	padding: 0.25rem 0.5rem;
+.submit {
+	background-color: #B04C5E;
+	border: none;
 	cursor: pointer;
+	color: white;
 }
-
-input.submit:active {
-	background-position: top left;
+.search-form {
+	position: relative;
+	background-color: white;
+	padding: 2px 3.4rem 2px 2px;
 }
-
+.search-form .submit {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	width: 3rem;
+}
+.search-form .text {
+	width: 100%;
+}
+.locate-me {
+	margin-top: 1rem;
+}
+.locate-me .submit {
+	width: 100%;
+}
 .meta {
 	font-size: 0.75rem;
 	line-height: 1.3;
