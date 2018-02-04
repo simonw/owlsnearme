@@ -484,14 +484,12 @@ class App extends Component {
           {this.state.species.length !== 0 && <div className={`species-list ${this.state.species.length <= 4 ? 'species-list-mini' : 'species-list-maxi'}`}>
             {/* Species list */}
             {this.state.species.map((s) => {
-              let observationDisplay = null;
               let observationFullDisplay = null;
               let observation = mostRecentObservation(s.id, this.state.observations);
               if (observation) {
-                observationDisplay = `, most recently ${observation.time_observed_ago} ago by ${observation.user_login}`;
                 observationFullDisplay = <div class="species-spotted">
                   <div class="avatar mini"><img src={observation.user_avatar_thumb} alt='' /></div>
-                  <a href={observation.uri}>{observation.time_observed_ago} by {observation.user_name || observation.user_login}</a>
+                  Spotted most recently <a href={observation.uri}>{observation.time_observed_ago}</a> <br/>by <a href="https://www.inaturalist.org/people/${observation.user_id}">{observation.user_name || observation.user_login}</a>
                 </div>;
               }
               return <div className="species" key={s.id}>
