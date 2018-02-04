@@ -160,6 +160,7 @@ class App extends Component {
     standardPlaces: [],
     communityPlaces: [],
     placesLoading: false,
+    locationLoading: false,
     placeName: null,
     places: [],
     species: [],
@@ -357,8 +358,10 @@ class App extends Component {
     });
   }
   onDeviceLocationClick() {
+    this.setState({locationLoading: true});
     window.navigator.geolocation.getCurrentPosition((position) => {
       this.setState({
+        locationLoading: false,
         swlat: null,
         swlng: null,
         nelat: null,
@@ -392,7 +395,10 @@ class App extends Component {
         <button
           type="button"
           className="submit"
-          onClick={this.onDeviceLocationClick.bind(this)}>Use my location!</button>
+          onClick={this.onDeviceLocationClick.bind(this)}>
+          Use my location
+          {this.state.locationLoading && <LoadingDots fill="#fff" style={{height: '0.8rem'}} />}
+        </button>
 
       </div>
     );
