@@ -474,7 +474,7 @@ class App extends Component {
               </div>}
           </form>
 
-          {this.state.species.length !== 0 && <div className={`species-list ${this.state.species.length <= 4 ? 'species-list-mini' : ''}`}>
+          {this.state.species.length !== 0 && <div className={`species-list ${this.state.species.length <= 4 ? 'species-list-mini' : 'species-list-maxi'}`}>
             {/* Species list */}
             {this.state.species.map((s) => (
               <div className="species" key={s.id}>
@@ -482,7 +482,7 @@ class App extends Component {
                   <div className="img"><a href={`https://www.inaturalist.org/taxa/${s.id}`}><img src={s.image} alt={s.common_name} /></a></div>
                   <h3 className="title">{s.common_name} <em className="species-name">{s.name}</em></h3>
                 </div>
-                <p className="species-context">Spotted {s.count} times nearby</p>
+                <p className="species-context">Spotted {s.count} {`${s.count == 1 ? 'time' : 'times'}`} nearby</p>
               </div>
             ))}
           </div>}

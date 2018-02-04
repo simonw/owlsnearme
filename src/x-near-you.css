@@ -354,6 +354,7 @@ button {
 	bottom: 0;
 	left: 0;
 	width: 100%;
+	box-sizing: border-box;
 	background-color: rgba(45, 38, 99, 0.7);
 	padding: 0.5rem;
 	overflow: hidden;
@@ -406,6 +407,12 @@ button {
 	.species-list-mini {
 		/* used when 4 or less things */
 		grid-template-columns: 1fr;
+	}
+	.species-list-maxi .species-name {
+		font-size: 0.75rem;
+	}
+	.species-list-maxi .title {
+		font-size: 0.875rem;
 	}
 	.species-list-mini .species .img {
 		height: 85vw;
