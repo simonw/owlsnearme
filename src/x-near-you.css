@@ -570,3 +570,6 @@ button {
 	text-align: center;
 	margin-top: 1.5rem;
 }
+.debug .inner {
+	overflow: scroll;
+}
