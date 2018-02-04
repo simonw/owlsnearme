@@ -357,8 +357,8 @@ button {
 	box-sizing: border-box;
 	background-color: rgba(45, 38, 99, 0.7);
 	padding: 0.5rem;
-	overflow: hidden;
-	text-overflow: ellipsis;
+}
+.species .title h3 {
 	font-size: 1.125rem;
 	text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 	font-weight: bold;
@@ -367,7 +367,8 @@ button {
 .credit {
 	position: absolute;
 	top: 0;
-	left: 0;
+	left: 0.1rem;
+	margin-top: -0.5rem;
 	font-size: 0.375rem
 }
 .species .species-name {
