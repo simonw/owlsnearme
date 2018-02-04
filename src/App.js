@@ -107,7 +107,10 @@ const PlaceCrumbs = (props) => {
   return (
     <ol className="place-crumbs meta">{props.places.map(p => {
       return (
-        <li key={p.id}><a href={`/?place=${p.id}`}>{p.shortName}</a></li>
+        <li key={p.id}><a onClick={(ev) => {
+          ev.preventDefault();
+          props.onPlaceClick(p.id);
+        }} href={`?place=${p.id}`}>{p.shortName}</a></li>
       )
     })}</ol>
   );
@@ -194,7 +197,7 @@ class App extends Component {
       const placeName = places.slice(-1)[0].shortName;
       this.setState({
         standardPlaces: places.filter(
-          p => p.place_type !== GEO_PLANET_CONTINENT
+          p => p.placeType !== GEO_PLANET_CONTINENT
         ),
         communityPlaces: cleanPlaces(response.data.results.community),
         placeName
@@ -355,6 +358,13 @@ class App extends Component {
       this.setState({taxon_id: bits.taxon_id})
     }
     this.setState({bits});
+    window.onpopstate = () => {
+      const bits2 = parseQueryString(window.location.search);
+      if (bits2.place && bits2.place != this.state.place_id) {
+        this.setState({speciesLoading: true});
+        this.setPlace(bits2.place);
+      }
+    };
   }
   onPlaceSearchSubmit(ev) {
     ev.preventDefault();
@@ -408,6 +418,17 @@ class App extends Component {
       this.fetchPlaceData(position.coords.latitude, position.coords.longitude);
     });
   }
+  onPlaceClick(placeId) {
+    this.setPlace(placeId);
+    this.setState({
+      places: [],
+      standardPlaces: [],
+      q: '',
+      speciesLoading: true
+    });
+    const newUrl = `/?place=${placeId}`;
+    window.history.pushState(newUrl, null, newUrl);
+  }
   render() {
     let map = null;
     if (this.state.swlat) {
@@ -447,7 +468,7 @@ class App extends Component {
       <section className="primary">
         <div className="inner">
           {pageHeader}
-          <PlaceCrumbs places={this.state.standardPlaces} />
+          <PlaceCrumbs places={this.state.standardPlaces} onPlaceClick={this.onPlaceClick.bind(this)}/>
           <form action="/" method="GET" onSubmit={this.onPlaceSearchSubmit.bind(this)}>
             <div className="search-form">
               <label><span>Search for a place</span><input
@@ -468,7 +489,10 @@ class App extends Component {
               {this.state.places.length !== 0 && <div className="search-suggest">
                 {this.state.places.map(place => {
                   return <div key={place.id}>
-                    <a href={`?place=${place.id}`}>{place.displayName}</a>
+                    <a onClick={(ev) => {
+                      ev.preventDefault();
+                      this.onPlaceClick(place.id);
+                    }} href={`?place=${place.id}`}>{place.displayName}</a>
                   </div>
                 })}
               </div>}
