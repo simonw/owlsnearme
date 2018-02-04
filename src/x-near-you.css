@@ -364,6 +364,12 @@ button {
 	font-weight: bold;
 	font-weight: 900;
 }
+.credit {
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: 0.375rem
+}
 .species .species-name {
 	font-style: italic;
 	display: block;

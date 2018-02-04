@@ -480,9 +480,16 @@ class App extends Component {
               <div className="species" key={s.id}>
                 <div className="species-content">
                   <div className="img"><a href={`https://www.inaturalist.org/taxa/${s.id}`}><img src={s.image} alt={s.common_name} /></a></div>
-                  <h3 className="title">{s.common_name} <em className="species-name">{s.name}</em></h3>
+                  <div className="title">
+                    <h3>{s.common_name} <em className="species-name">{s.name}</em></h3>
+                    <p className="credit">{s.flickr_url ? (
+                    <a href={s.flickr_url}>{s.attribution}</a>
+                    ) : s.attribution}</p>
+                  </div>
                 </div>
-                <p className="species-context">Spotted {s.count} {`${s.count == 1 ? 'time' : 'times'}`} nearby</p>
+                <div className="species-context">
+                  <p>Spotted {s.count} {`${s.count == 1 ? 'time' : 'times'}`} nearby</p>
+                </div>
               </div>
             ))}
           </div>}
