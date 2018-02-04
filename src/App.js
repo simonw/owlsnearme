@@ -413,16 +413,18 @@ class App extends Component {
       </div>
     );
     const inOrNear = this.state.swlat ? 'in' : 'near';
-    const title = this.state.placeName ? (
-      `Owls ${inOrNear} ${this.state.placeName}`
-    ) : (
-      `Find owls near me!`
-    );
-    document.title = title;
+    let pageTitle = 'Find owls near me!';
+    let pageHeader = <h1>{pageTitle}</h1>;
+    if (this.state.placeName) {
+      pageTitle = `Owls ${inOrNear} ${this.state.placeName}`;
+      pageHeader = <h1>Owls {inOrNear} <em>{this.state.placeName}</em></h1>;
+    }
+
+    document.title = pageTitle;
     return (<div>
       <section className="primary">
         <div className="inner">
-          <h1>{title}</h1>
+          {pageHeader}
           <PlaceCrumbs places={this.state.standardPlaces} />
           <form action="/" method="GET" onSubmit={this.onPlaceSearchSubmit.bind(this)}>
             <div className="search-form">
@@ -458,7 +460,7 @@ class App extends Component {
               {deviceLocationButton}
           </form>
 
-          {this.state.species.length !== 0 && <div className="species-list">
+          {this.state.species.length !== 0 && <div className={`species-list ${this.state.species.length <= 4 ? 'species-list-mini' : ''}`}>
             {/* Species list */}
             {this.state.species.map((s) => (
               <div className="species" key={s.id}>

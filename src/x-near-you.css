@@ -222,6 +222,9 @@ h1 {
 	font-family: 'Roboto Slab', serif;
 	font-weight: 900;
 }
+h1 em {
+	color: rgba(255,255,255,0.55);
+}
 h2 {
 	font-size: 2.25rem;
 	margin-bottom: 1rem;
@@ -313,6 +316,10 @@ button {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: 2vw;
 }
+.species-list-mini {
+	/* used when 4 or less things */
+	grid-template-columns: 1fr 1fr;
+}
 
 .species .species-content {
 	width: 100%;
@@ -324,6 +331,9 @@ button {
 	margin-top: 0.4375rem;
 	box-sizing: border-box;
 	background-color: white;
+}
+.species-list-mini .species .img {
+	height: 35vw;
 }
 .species .img a:link,
 .species .img a:visited,
@@ -374,6 +384,9 @@ button {
 	.species .img {
 		height: 33vw;
 	}
+	.species-list-mini .species .img {
+		height: 42vw;
+	}
 }
 @media (max-width: 850px) {
 	.species .img {
@@ -388,9 +401,13 @@ button {
 		font-size: 2.5em
 	}
 	.species-list {
+		grid-template-columns: 1fr 1fr;
+	}
+	.species-list-mini {
+		/* used when 4 or less things */
 		grid-template-columns: 1fr;
 	}
-	.species .img {
+	.species-list-mini .species .img {
 		height: 85vw;
 	}
 }
