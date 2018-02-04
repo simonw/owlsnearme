@@ -186,7 +186,9 @@ class App extends Component {
       }
     ).then(response => {
       this.setState({
-        standardPlaces: cleanPlaces(response.data.results.standard),
+        standardPlaces: cleanPlaces(response.data.results.standard).filter(
+          p => p.place_type !== GEO_PLANET_CONTINENT
+        ),
         communityPlaces: cleanPlaces(response.data.results.community),
         placeName: cleanPlaces(response.data.results.standard).slice(-1)[0].name
       });
