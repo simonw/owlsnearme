@@ -134,6 +134,7 @@ class App extends Component {
       this.setState({
         standardPlaces: cleanPlaces(response.data.results.standard),
         communityPlaces: cleanPlaces(response.data.results.community),
+        placeName: cleanPlaces(response.data.results.standard).slice(-1)[0].name
       });
     });
   }
@@ -302,11 +303,17 @@ class App extends Component {
 
       </div>
     );
+    const inOrNear = this.state.swlat ? 'in' : 'near';
+    const title = this.state.placeName ? (
+      `Owls ${inOrNear} ${this.state.placeName}`
+    ) : (
+      `Find owls near me!`
+    );
+    document.title = title;
     return (<div>
       <section className="primary">
         <div className="inner">
-          <h1>Find owls near&nbsp;me!</h1>
-
+          <h1>{title}</h1>
           <form action="/" method="GET" onSubmit={this.onSubmit.bind(this)}>
             <div className="search-form">
               <label><span>Search for a place</span><input
@@ -316,7 +323,7 @@ class App extends Component {
                 className="text"
                 name="q"
                 onChange={this.onTextChange.bind(this)}
-                placeholder="Search for a place"
+                placeholder={this.state.placeName ? "Search somewhere else" : "Search for a place"}
                 value={this.state.q || ''}
               /></label>
 
