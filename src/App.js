@@ -361,8 +361,7 @@ class App extends Component {
     window.onpopstate = () => {
       const bits2 = parseQueryString(window.location.search);
       if (bits2.place && bits2.place != this.state.place_id) {
-        this.setState({speciesLoading: true});
-        this.setPlace(bits2.place);
+        this.onPlaceClick(bits2.place, true);
       }
     };
   }
@@ -418,16 +417,20 @@ class App extends Component {
       this.fetchPlaceData(position.coords.latitude, position.coords.longitude);
     });
   }
-  onPlaceClick(placeId) {
+  onPlaceClick(placeId, avoidUpdatingBrowserHistory) {
     this.setPlace(placeId);
     this.setState({
       places: [],
       standardPlaces: [],
+      species: [],
+      observations: [],
       q: '',
       speciesLoading: true
     });
     const newUrl = `/?place=${placeId}`;
-    window.history.pushState(newUrl, null, newUrl);
+    if (!avoidUpdatingBrowserHistory) {
+      window.history.pushState(newUrl, null, newUrl);
+    }
   }
   render() {
     let map = null;
