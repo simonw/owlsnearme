@@ -5,8 +5,8 @@ import { Map, TileLayer } from 'react-leaflet';
 import moment from 'moment-es6';
 
 const cleanPlaces = (places) => {
-  return places.map(({bounding_box_geojson, name, display_name}) => {
-    return {bounding_box_geojson, name, display_name};
+  return places.map(({bounding_box_geojson, name, display_name, id}) => {
+    return {bounding_box_geojson, name, display_name, id};
   });
 }
 
@@ -56,6 +56,19 @@ const haversine_distance_km = (lat1, lon1, lat2, lon2) => {
         (1 - Math.cos((lon2 - lon1) * p)) / 2
     );
     return world_radius_km * 2 * Math.asin(Math.sqrt(a));
+}
+
+const PlaceCrumbs = (props) => {
+  if (!props.places || !props.places.length) {
+    return null;
+  }
+  return (
+    <p className="placeCrumbs">{props.places.map(p => {
+      return (
+        <a href={`/?place=${p.id}`}>{p.name}</a>
+      )
+    })}</p>
+  );
 }
 
 class CustomMap extends Component {
@@ -231,11 +244,26 @@ class App extends Component {
       })});
     });
   }
+  loadPlaceCrumbs(placeIds) {
+    get(
+      `https://api.inaturalist.org/v1/places/${placeIds.join(',')}`
+    ).then(response => {
+      let places = cleanPlaces(response.data.results);
+      places.sort((a, b) => {
+        return placeIds.indexOf(a.id) - placeIds.indexOf(b.id);
+      });
+      this.setState({
+        standardPlaces: places
+      });
+    });
+  }
   setPlace(placeId) {
     get(
       `https://api.inaturalist.org/v1/places/${placeId}`
     ).then(response => {
       const place = cleanPlace(response.data.results[0]);
+      // Kick off request for ancestors for breadcrumbs
+      this.loadPlaceCrumbs(response.data.results[0].ancestor_place_ids);
       this.setState({
         swlat: place.swlat,
         swlng: place.swlng,
@@ -330,6 +358,7 @@ class App extends Component {
       <section className="primary">
         <div className="inner">
           <h1>{title}</h1>
+          <PlaceCrumbs places={this.state.standardPlaces} />
           <form action="/" method="GET" onSubmit={this.onSubmit.bind(this)}>
             <div className="search-form">
               <label><span>Search for a place</span><input

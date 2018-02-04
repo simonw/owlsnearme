@@ -482,3 +482,10 @@ button {
 .observation .verify.help-needed {
 	background-color: #B04C5E;
 }
+
+.placeCrumbs {
+	margin-bottom: 0.625em;
+}
+.placeCrumbs a {
+	margin-right: 1em;
+}
