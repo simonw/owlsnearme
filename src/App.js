@@ -420,6 +420,8 @@ class App extends Component {
   onPlaceClick(placeId, avoidUpdatingBrowserHistory) {
     this.setPlace(placeId);
     this.setState({
+      lat: null,
+      lng: null,
       places: [],
       standardPlaces: [],
       species: [],
