@@ -228,11 +228,20 @@ class App extends Component {
       }
     ).then(response => {
       const species = response.data.results.map(r => {
+        const image = r.taxon.default_photo.medium_url;
+        const bits = /.*staticflickr\.com\/\d+\/(\d+).*/.exec(image);
+        const flickr_url = (
+          (bits && bits.length)
+          ? `https://www.flickr.com/photo.gne?id=${bits[1]}`
+          : null
+        );
         return {
           count: r.count,
           common_name: r.taxon.preferred_common_name,
           name: r.taxon.name,
-          image: r.taxon.default_photo.medium_url,
+          image: image,
+          attribution: r.taxon.default_photo.attribution,
+          flickr_url: flickr_url,
           id: r.taxon.id
         }
       });
