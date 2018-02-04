@@ -379,7 +379,7 @@ button {
 	font-weight: bold;
 	font-weight: 900;
 }
-.credit {
+.species .credit {
 	position: absolute;
 	top: 0;
 	left: 0.1rem;
@@ -413,6 +413,85 @@ button {
 	margin: 0 0 0 -1.5rem;
 }
 
+.spotting-list {
+	padding: 0 0 2rem 0;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-gap: 2vw;
+}
+.spotting-content {
+	overflow: hidden;
+	position: relative;
+}
+.spotting .img {
+	width: 100%;
+	height: 20vw;
+	box-sizing: border-box;
+	background-color: white;
+}
+.spotting .img img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+.spotting .title {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	box-sizing: border-box;
+	background-color: rgba(235, 194, 122, 0.7);
+	padding: 0.5rem;
+}
+.spotting .title h3 {
+	font-size: 1.125rem;
+	font-weight: bold;
+	font-weight: 900;
+	margin: 0
+}
+.spotting-by {
+	padding: 0 0 0 1.5rem;
+	margin: 0.5rem 0 0 0;
+}
+.spotting-by .avatar {
+	position: relative;
+	top: 0.05rem;
+	float: left;
+	margin: 0 0 0 -1.5rem;
+	background-color: rgba(176, 76, 94, 1)
+}
+.spotting .spotting-context {
+		font-size: 0.75rem;
+		padding: 0.5rem;
+}
+.spotting .verify {
+	display: block;
+	text-transform: uppercase;
+	font-size: 0.625em;
+	padding: 0.5rem;
+	background-color: #2D2663;
+}
+.spotting .verify,
+.spotting a.verify:link,
+.spotting a.verify:visited {
+	color: white;
+	color: rgba(255, 255, 255, 0.8);
+	text-decoration: none;
+}
+.spotting a.verify:link,
+.spotting a.verify:visited {
+	cursor: pointer;
+}
+.spotting a.verify:hover,
+.spotting a.verify:focus,
+.spotting a.verify:active {
+	color: rgba(255, 255, 255, 1);
+	cursor: pointer;
+}
+.spotting .verify.help-needed {
+	background-color: #B04C5E;
+}
 
 @media (max-width: 950px) {
 	.species-list {

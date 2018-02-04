@@ -551,9 +551,6 @@ class App extends Component {
           <div className="spotting-list">
             {this.state.observations.map((o) => (
             <div className="spotting" key={o.uri}>
-              <div className="img"><a href={o.uri}><img src={o.image_medium} alt="View observation of {o.common_name} on iNaturalist" /></a></div>
-              <h3 className="title"><a href={o.uri}>{o.common_name || o.name}</a> <em className="observation-species">{o.name}</em></h3>
-              <p>Spotted by <a href={`https://www.inaturalist.org/people/${o.user_login}`}>{o.user_name || o.user_login }</a> {o.distance_km && <span>&nbsp;{`${(o.distance_km * (1000/1600)).toFixed(1)} miles away`}&nbsp;</span>} in {o.place_guess} <span title={o.time_observed_at}>{o.time_observed_ago}</span>.</p>
               <p>
                 {o.is_research ? (
                   <span className="verify">Verified observation</span>
@@ -561,24 +558,24 @@ class App extends Component {
                   <a className="verify help-needed" href={o.uri}>Help verify observation</a>
                 )}
               </p>
+              <div className="spotting-content">
+                <div className="img"><a href={o.uri}><img src={o.image_medium} alt="View observation of {o.common_name} on iNaturalist" /></a></div>
+                <div className="title">
+                  <h3><a href={o.uri}>{o.common_name || o.name}</a></h3>
+                  <div className="spotting-by">
+                    <div className="avatar mini"><img src='' alt='' /></div>
+                    <p className="spotting-person">Spotted by <a href={`https://www.inaturalist.org/people/${o.user_login}`}>{o.user_name || o.user_login }</a> </p>
+                  </div>
+                </div>
+              </div>
+              <div className="spotting-context">
+                <p>{o.distance_km && <span>&nbsp;{`${(o.distance_km * (1000/1600)).toFixed(1)} miles away`}&nbsp;</span>} in {o.place_guess} <span title={o.time_observed_at}>{o.time_observed_ago}</span>.</p>
+              </div>
             </div>
             ))}
           </div>
 
-            {this.state.observations.map((o) => (
-              <div className="observation" key={o.uri}>
-                <div className="img"><a href={o.uri}><img src={o.image_medium} alt="View observation of {o.common_name} on iNaturalist" /></a></div>
-                <h3 className="title"><a href={o.uri}>{o.common_name || o.name}</a> <em className="observation-species">{o.name}</em></h3>
-                <p>Spotted by <a href={`https://www.inaturalist.org/people/${o.user_login}`}>{o.user_name || o.user_login }</a> {o.distance_km && <span>&nbsp;{`${(o.distance_km * (1000/1600)).toFixed(1)} miles away`}&nbsp;</span>} in {o.place_guess} <span title={o.time_observed_at}>{o.time_observed_ago}</span>.</p>
-                <p>
-                  {o.is_research ? (
-                    <span className="verify">Verified observation</span>
-                  ) : (
-                    <a className="verify help-needed" href={o.uri}>Help verify observation</a>
-                  )}
-                </p>
-              </div>
-            ))}
+
 
 
 
@@ -590,7 +587,7 @@ class App extends Component {
           <p className="meta">by <a href="https://www.inaturalist.org/people/natbat">Natalie Downe</a> and <a href="https://www.inaturalist.org/people/simonw">Simon Willison</a> using data from <a href="https://www.inaturalist.org/">iNaturalist</a></p>
         </div>
       </section>
-      {window.localStorage && window.localStorage.getItem('debug') && <section className="tertiary">
+      {window.localStorage && window.localStorage.getItem('debug') && <section className="tertiary debug">
         <div className="inner">
           <h2>Debug information</h2>
           <pre>
