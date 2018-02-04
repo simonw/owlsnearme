@@ -397,7 +397,7 @@ input.submit:active {
 	color: rgba(59, 41, 10, 0.4);
 	font-style: italic;
 	display: block;
-	font-size: 0.8em
+	font-size: 1.125rem
 }
 
 .observation .verify {
