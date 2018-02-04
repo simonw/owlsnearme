@@ -183,10 +183,10 @@ class App extends Component {
     get(
       'https://api.inaturalist.org/v1/places/nearby', {
         params: {
-          nelat: lat,
-          nelng: lng,
-          swlat: lat,
-          swlng: lng
+          nelat: lat.toFixed(3),
+          nelng: lng.toFixed(3),
+          swlat: lat.toFixed(3),
+          swlng: lng.toFixed(3)
         }
       }
     ).then(response => {
@@ -211,15 +211,15 @@ class App extends Component {
       location.place_id = this.state.place_id;
     } else if (this.state.nelat) {
       location = {
-        nelat: this.state.nelat,
-        nelng: this.state.nelng,
-        swlat: this.state.swlat,
-        swlng: this.state.swlng
+        nelat: this.state.nelat.toFixed(3),
+        nelng: this.state.nelng.toFixed(3),
+        swlat: this.state.swlat.toFixed(3),
+        swlng: this.state.swlng.toFixed(3)
       };
     } else {
       location = {
-        lat: this.state.lat,
-        lng: this.state.lng,
+        lat: this.state.lat.toFixed(3),
+        lng: this.state.lng.toFixed(3),
         radius: 50
       };
     };
