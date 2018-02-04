@@ -169,7 +169,7 @@ class App extends Component {
         }
       }
     ).then(response => {
-      this.setState({species: response.data.results.map(r => {
+      const species = response.data.results.map(r => {
         return {
           count: r.count,
           common_name: r.taxon.preferred_common_name,
@@ -177,7 +177,23 @@ class App extends Component {
           image: r.taxon.default_photo.medium_url,
           id: r.taxon.id
         }
-      })});
+      });
+      if (species.length) {
+        this.setState({species});
+      } else if (!this.state.lng) {
+        // If no results, switch to lat/lng/radius search instead
+        this.setState({
+          swlat: null,
+          swlng: null,
+          nelat: null,
+          nelng: null,
+          place_id: null,
+          lat: this.state.swlat + ((this.state.nelat - this.state.swlat) / 2),
+          lng: this.state.swlng + ((this.state.nelng - this.state.swlng) / 2)
+        }, () => {
+          this.fetchSpeciesData();
+        });
+      }
     });
     get(
       'https://api.inaturalist.org/v1/observations', {
