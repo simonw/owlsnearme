@@ -268,36 +268,50 @@ input.submit:active {
 .species-list {
 	padding: 2em 0;
 	display: grid;
-	grid-template-rows: 1fr 1fr 1fr;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: 2vw;
 }
 .species-list .species {
-	background: blue;
 }
 .species .species-content {
 	width: 100%;
 	background-color: red;
+	position: relative;
 }
-.species .img {
-	
+.species .img img {
+	display: block;
+	max-width: 100%
+}
+.species .title {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: rgba(45, 38, 99, 0.7);
+	padding: 0.5rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 1.125rem;
+}
+.species .species-name {
+	font-style: italic;
+	display: block;
+	font-size: 1rem;
+	margin-top: 0.1rem;
+	color: rgba(255, 255, 255, 0.8)
+}
+.species .species-context {
+	padding: 0.5rem;
+	color: rgba(255, 255, 255, 0.8)
 }
 @media (max-width: 950px) {
 	.species-list {
-		grid-template-rows: 1fr 1fr;
 		grid-template-columns: 1fr 1fr;
-	}
-	.species-list .species {
-		background: lime;
 	}
 }
 @media (max-width: 500px) {
 	.species-list {
-		grid-template-rows: 1fr;
 		grid-template-columns: 1fr;
-	}
-	.species-list .species {
-		background: yellow;
 	}
 }
 
