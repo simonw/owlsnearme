@@ -581,7 +581,7 @@ class App extends Component {
                 </div>
               </div>
               <div className="spotting-context">
-                <p>{o.distance_km && <span>&nbsp;{`${(o.distance_km * (1000/1600)).toFixed(1)} miles away`}&nbsp;</span>} in {o.place_guess} <span title={o.time_observed_at}>{o.time_observed_ago}</span>.</p>
+                <p>Spotted {o.distance_km && <span>&nbsp;{`${(o.distance_km * (1000/1600)).toFixed(1)} miles away`}&nbsp;</span>} {o.place_guess ? `in ${o.place_guess}` : ''} <span title={o.time_observed_at}>{o.time_observed_ago}</span>.</p>
               </div>
             </div>
             ))}
