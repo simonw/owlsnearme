@@ -107,7 +107,7 @@ const PlaceCrumbs = (props) => {
   return (
     <ol className="place-crumbs meta">{props.places.map(p => {
       return (
-        <li><a href={`/?place=${p.id}`}>{p.shortName}</a></li>
+        <li key={p.id}><a href={`/?place=${p.id}`}>{p.shortName}</a></li>
       )
     })}</ol>
   );
@@ -462,12 +462,12 @@ class App extends Component {
               /></label>
 
               <button type="submit" className="submit">Go</button>
-              {this.state.noPlaceResultsFor && <div class="search-suggest">
+              {this.state.noPlaceResultsFor && <div className="search-suggest">
                 <div>No places found for "{this.state.noPlaceResultsFor}"</div>
               </div>}
-              {this.state.places.length !== 0 && <div class="search-suggest">
+              {this.state.places.length !== 0 && <div className="search-suggest">
                 {this.state.places.map(place => {
-                  return <div>
+                  return <div key={place.id}>
                     <a href={`?place=${place.id}`}>{place.displayName}</a>
                   </div>
                 })}
@@ -491,9 +491,9 @@ class App extends Component {
               let observationFullDisplay = null;
               let observation = mostRecentObservation(s.id, this.state.observations);
               if (observation) {
-                observationFullDisplay = <div class="species-spotted">
-                  <div class="avatar mini"><img src={observation.user_avatar_thumb} alt='' /></div>
-                  Spotted most recently <a href={observation.uri}>{observation.time_observed_ago}</a> <br/>by <a href="https://www.inaturalist.org/people/${observation.user_id}">{observation.user_name || observation.user_login}</a>
+                observationFullDisplay = <div className="species-spotted">
+                  <div className="avatar mini"><img src={observation.user_avatar_thumb} alt='' /></div>
+                  Spotted most recently <a href={observation.uri}>{observation.time_observed_ago}</a> <br/>by <a href={`https://www.inaturalist.org/people/${observation.user_id}`}>{observation.user_name || observation.user_login}</a>
                 </div>;
               }
               return <div className="species" key={s.id}>
