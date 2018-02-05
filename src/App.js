@@ -180,7 +180,7 @@ class App extends Component {
     swlat: null,
     swlng: null,
     q: null,
-    taxon_id: 19350
+    taxon_id: 40268
   }
   fetchPlaceData(lat, lng) {
     get(
@@ -432,7 +432,7 @@ class App extends Component {
     const newUrl = `/?place=${placeId}`;
     if (!avoidUpdatingBrowserHistory) {
       window.history.pushState(newUrl, null, newUrl);
-      window.gtag && window.gtag('event', 'page_view', window.location.href);
+      window.gtag && window.gtag('event', 'pageview', window.location.href);
     }
   }
   render() {
@@ -462,11 +462,11 @@ class App extends Component {
       </div>
     );
     const inOrNear = this.state.swlat ? 'in' : 'near';
-    let pageTitle = 'Find owls near me!';
+    let pageTitle = 'Find bats near me!';
     let pageHeader = <h1>{pageTitle}</h1>;
     if (this.state.placeName) {
-      pageTitle = `Owls ${inOrNear} ${this.state.placeName}`;
-      pageHeader = <h1>Owls {inOrNear} <em>{this.state.placeName}</em></h1>;
+      pageTitle = `Bats ${inOrNear} ${this.state.placeName}`;
+      pageHeader = <h1>Bats {inOrNear} <em>{this.state.placeName}</em></h1>;
     }
 
     document.title = pageTitle;
@@ -548,7 +548,7 @@ class App extends Component {
               </div>
             })}
           </div>}
-          {noResultsFound && <div className="no-results-found">No owls found in {this.state.placeName}</div>}
+          {noResultsFound && <div className="no-results-found">No bats found in {this.state.placeName}</div>}
         </div>
       </section>
 
@@ -559,7 +559,7 @@ class App extends Component {
       {this.state.observations.length !== 0 && <section className="secondary">
         <div className="inner">
 
-          <h2>Recently spotted Owls</h2>
+          <h2>Recently spotted bats</h2>
 
           <div className={`spotting-list ${this.state.species.length <= 4 ? 'spotting-list-mini' : 'spotting-list-maxi'}`}>
             {this.state.observations.map((o) => (
