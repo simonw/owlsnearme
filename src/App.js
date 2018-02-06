@@ -492,7 +492,7 @@ class App extends Component {
     const newUrl = `/?place=${placeId}`;
     if (!avoidUpdatingBrowserHistory) {
       window.history.pushState(newUrl, null, newUrl);
-      window.gtag && window.gtag('event', 'pageview', window.location.href);
+      window.gtag && window.gtag('event', 'page_view', window.location.href);
     }
   }
   render() {
@@ -587,7 +587,7 @@ class App extends Component {
               </div>}
           </form>
 
-          {this.state.species.length !== 0 && <div className="species-list species-list-mini">
+          {this.state.species.length !== 0 && <div className={`species-list ${this.state.species.length <= 4 ? 'species-list-mini' : 'species-list-maxi'}`}>
             {/* Species list */}
             {this.state.species.map((s) => {
               let observationFullDisplay = null;
@@ -612,7 +612,21 @@ class App extends Component {
                 </div>
               </div>
             })}
-
+          </div>}
+          {worldwide && <div className="intro-text">
+            <p>Find bats that have been observed near you by the <a href="https://www.inaturalist.org/">iNaturalist</a> community, from {(this.state.totalObservations || 10500).toLocaleString()} observations.</p>
+            <p>Search for a place above, or try <a onClick={(ev) => {
+              ev.preventDefault();
+              onPlaceClick(854);
+            }} href={`?place=854`}>San Francisco</a> or <a onClick={(ev) => {
+              ev.preventDefault();
+              onPlaceClick(6973);
+            }} href={`?place=${6973}`}>Italy</a> or <a onClick={(ev) => {
+              ev.preventDefault();
+              onPlaceClick(21);
+            }} href={`?place=${21}`}>Florida</a>.</p>
+          </div>}
+          {noResultsFound && <div className="no-results-found">No bats found in {this.state.placeName}</div>}
         </div>
       </section>
 
