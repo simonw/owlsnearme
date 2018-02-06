@@ -587,7 +587,7 @@ class App extends Component {
               </div>}
           </form>
 
-          {this.state.species.length !== 0 && <div className={`species-list ${this.state.species.length <= 4 ? 'species-list-mini' : 'species-list-maxi'}`}>
+          {this.state.species.length !== 0 && <div className="species-list species-list-mini">
             {/* Species list */}
             {this.state.species.map((s) => {
               let observationFullDisplay = null;
