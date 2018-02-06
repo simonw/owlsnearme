@@ -663,3 +663,11 @@ button {
 	font-weight: bold;
 	margin-top: 0.5em;
 }
+.intro-text {
+	margin: 1rem 0 2rem 0;
+	line-height: 1.4;
+	color: rgba(255, 255, 255, 0.8)
+}
+.intro-text p {
+	margin-bottom: 0.8rem;
+}
