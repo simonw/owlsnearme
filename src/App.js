@@ -194,7 +194,7 @@ class App extends Component {
       }
     ).then(response => {
       const places = cleanPlaces(response.data.results.standard);
-      const placeName = places.slice(-1)[0].shortName;
+      const placeName = places.length ? places.slice(-1)[0].shortName : '';
       this.setState({
         standardPlaces: places.filter(
           p => p.placeType !== GEO_PLANET_CONTINENT
@@ -282,34 +282,69 @@ class App extends Component {
         }
       }
     ).then(response => {
-      this.setState({observations: response.data.results.map(o => {
-        let distance_km = null;
-        if (this.state.lat && o.location) {
-          distance_km = haversine_distance_km(
-            this.state.lat, this.state.lng,
-            parseFloat(o.location.split(',')[0]),
-            parseFloat(o.location.split(',')[1]),
-          );
+      this.setState({
+        observations: response.data.results.map(this.cleanObservation.bind(this))
+      });
+    });
+  }
+  cleanObservation(o) {
+    let distance_km = null;
+    if (this.state.lat && o.location) {
+      distance_km = haversine_distance_km(
+        this.state.lat, this.state.lng,
+        parseFloat(o.location.split(',')[0]),
+        parseFloat(o.location.split(',')[1]),
+      );
+    }
+    return {
+      time_observed_at: moment(o.time_observed_at).format('MMMM Do YYYY, h:mma'),
+      time_observed_ago: moment(o.time_observed_at).fromNow(),
+      image_square: o.photos[0].url,
+      image_medium: o.photos[0].url.replace('square.', 'medium.'),
+      common_name: o.taxon.preferred_common_name,
+      name: o.taxon.name,
+      taxon_id: o.taxon.id,
+      uri: o.uri,
+      user_name: o.user.name,
+      user_login: o.user.login,
+      user_id: o.user.id,
+      user_avatar_medium: `https://static.inaturalist.org/attachments/users/icons/${o.user.id}/medium.jpg`,
+      user_avatar_thumb: `https://static.inaturalist.org/attachments/users/icons/${o.user.id}/thumb.jpg`,
+      place_guess: o.place_guess,
+      is_research: o.quality_grade === 'research',
+      distance_km
+    }
+  }
+  loadHomepage() {
+    this.setState({
+      standardPlaces: [],
+      communityPlaces: [],
+      placeName: null,
+      places: [],
+      species: [],
+      observations: [],
+      place_id: null,
+      lng: null,
+      lat: null,
+      nelat: null,
+      nelng: null,
+      swlat: null,
+      swlng: null
+    });
+    get(
+      'https://api.inaturalist.org/v1/observations', {
+        params: {
+          order_by: 'observed_on',
+          photos: true,
+          per_page: 6,
+          taxon_id: this.state.taxon_id
         }
-        return {
-          time_observed_at: moment(o.time_observed_at).format('MMMM Do YYYY, h:mma'),
-          time_observed_ago: moment(o.time_observed_at).fromNow(),
-          image_square: o.photos[0].url,
-          image_medium: o.photos[0].url.replace('square.', 'medium.'),
-          common_name: o.taxon.preferred_common_name,
-          name: o.taxon.name,
-          taxon_id: o.taxon.id,
-          uri: o.uri,
-          user_name: o.user.name,
-          user_login: o.user.login,
-          user_id: o.user.id,
-          user_avatar_medium: `https://static.inaturalist.org/attachments/users/icons/${o.user.id}/medium.jpg`,
-          user_avatar_thumb: `https://static.inaturalist.org/attachments/users/icons/${o.user.id}/thumb.jpg`,
-          place_guess: o.place_guess,
-          is_research: o.quality_grade === 'research',
-          distance_km
-        }
-      })});
+      }
+    ).then(response => {
+      this.setState({
+        totalObservations: response.data.total_results,
+        observations: response.data.results.map(this.cleanObservation.bind(this))
+      });
     });
   }
   loadPlaceCrumbs(placeIds) {
@@ -353,6 +388,10 @@ class App extends Component {
     const bits = parseQueryString(window.location.search);
     if (bits.place) {
       this.setPlace(bits.place);
+    } else if (bits.lat && bits.lng) {
+      this.setLatitudeLongitude(parseFloat(bits.lat), parseFloat(bits.lng));
+    } else {
+      this.loadHomepage();
     }
     if (bits.taxon_id) {
       this.setState({taxon_id: bits.taxon_id})
@@ -362,6 +401,20 @@ class App extends Component {
       const bits2 = parseQueryString(window.location.search);
       if (bits2.place && bits2.place !== this.state.place_id) {
         this.onPlaceClick(bits2.place, true);
+      } else if (bits2.lat && bits2.lng) {
+        // Url has lat/lng in it, has this changed?
+        if (!this.state.lat || !this.state.lng || (
+          parseFloat(bits2.lat).toFixed(3) !== this.state.lat.toFixed(3)
+        ) || (
+          parseFloat(bits2.lng).toFixed(3) !== this.state.lng.toFixed(3)
+        )) {
+          this.setLatitudeLongitude(
+            parseFloat(bits2.lat), parseFloat(bits2.lng)
+          );
+        }
+      }
+      if (Object.keys(bits2).length === 0) {
+        this.loadHomepage();
       }
     };
   }
@@ -399,22 +452,29 @@ class App extends Component {
       q: ev.target.value
     });
   }
+  setLatitudeLongitude(latitude, longitude) {
+    this.setState({
+      locationLoading: false,
+      swlat: null,
+      swlng: null,
+      nelat: null,
+      nelng: null,
+      place_id: null,
+      lat: latitude,
+      lng: longitude
+    }, () => {
+      this.fetchSpeciesData();
+    });
+    this.fetchPlaceData(latitude, longitude);
+  }
   onDeviceLocationClick() {
     this.setState({locationLoading: true});
     window.navigator.geolocation.getCurrentPosition((position) => {
-      this.setState({
-        locationLoading: false,
-        swlat: null,
-        swlng: null,
-        nelat: null,
-        nelng: null,
-        place_id: null,
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      }, () => {
-        this.fetchSpeciesData();
-      });
-      this.fetchPlaceData(position.coords.latitude, position.coords.longitude);
+      const newUrl = `/?lat=${position.coords.latitude.toFixed(3)}&lng=${position.coords.longitude.toFixed(3)}`;
+      window.history.pushState(newUrl, null, newUrl);
+      this.setLatitudeLongitude(
+        position.coords.latitude, position.coords.longitude
+      );
     });
   }
   onPlaceClick(placeId, avoidUpdatingBrowserHistory) {
@@ -477,11 +537,16 @@ class App extends Component {
       this.state.placeName
     );
 
+    const worldwide = (
+      !this.state.lat && !this.state.place_id && !this.state.swlng
+    );
+
+    const onPlaceClick = this.onPlaceClick.bind(this);
     return (<div>
       <section className="primary">
         <div className="inner">
           {pageHeader}
-          <PlaceCrumbs places={this.state.standardPlaces} onPlaceClick={this.onPlaceClick.bind(this)}/>
+          <PlaceCrumbs places={this.state.standardPlaces} onPlaceClick={onPlaceClick}/>
           <form action="/" method="GET" onSubmit={this.onPlaceSearchSubmit.bind(this)}>
             <div className="search-form">
               <label><span>Search for a place</span><input
@@ -548,6 +613,19 @@ class App extends Component {
               </div>
             })}
           </div>}
+          {worldwide && <div className="intro-text">
+            <p>Find owls that have been observed near you by the <a href="https://www.inaturalist.org/">iNaturalist</a> community, from {(this.state.totalObservations || 15000).toLocaleString()} observations.</p>
+            <p>Search for a place above, or try <a onClick={(ev) => {
+              ev.preventDefault();
+              onPlaceClick(854);
+            }} href={`?place=854`}>San Francisco</a> or <a onClick={(ev) => {
+              ev.preventDefault();
+              onPlaceClick(6973);
+            }} href={`?place=${6973}`}>Italy</a> or <a onClick={(ev) => {
+              ev.preventDefault();
+              onPlaceClick(21);
+            }} href={`?place=${21}`}>Florida</a>.</p>
+          </div>}
           {noResultsFound && <div className="no-results-found">No owls found in {this.state.placeName}</div>}
         </div>
       </section>
@@ -559,7 +637,7 @@ class App extends Component {
       {this.state.observations.length !== 0 && <section className="secondary">
         <div className="inner">
 
-          <h2>Recently spotted Owls</h2>
+          <h2>Recently spotted Owls{worldwide ? ' worldwide' : ''}</h2>
 
           <div className={`spotting-list ${this.state.species.length <= 4 ? 'spotting-list-mini' : 'spotting-list-maxi'}`}>
             {this.state.observations.map((o) => (
