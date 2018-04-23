@@ -180,7 +180,8 @@ class App extends Component {
     swlat: null,
     swlng: null,
     q: null,
-    taxon_id: 19350
+    taxon_id: 19350,
+    taxon_plural: 'Owls',
   }
   fetchPlaceData(lat, lng) {
     get(
@@ -315,7 +316,7 @@ class App extends Component {
       distance_km
     }
   }
-  loadHomepage() {
+  loadHomepage(taxon_id) {
     this.setState({
       standardPlaces: [],
       communityPlaces: [],
@@ -337,7 +338,7 @@ class App extends Component {
           order_by: 'observed_on',
           photos: true,
           per_page: 6,
-          taxon_id: this.state.taxon_id
+          taxon_id: taxon_id
         }
       }
     ).then(response => {
@@ -386,15 +387,24 @@ class App extends Component {
   }
   componentDidMount() {
     const bits = parseQueryString(window.location.search);
+    let taxon_id = this.state.taxon_id;
+    if (bits.taxon_id) {
+      this.setState({taxon_id: bits.taxon_id});
+      taxon_id = bits.taxon_id;
+      get(
+        `https://api.inaturalist.org/v1/taxa/${bits.taxon_id}`
+      ).then(response => {
+        this.setState({
+          taxon_plural: response.data.results[0].preferred_common_name
+        });
+      });
+    }
     if (bits.place) {
       this.setPlace(bits.place);
     } else if (bits.lat && bits.lng) {
       this.setLatitudeLongitude(parseFloat(bits.lat), parseFloat(bits.lng));
     } else {
-      this.loadHomepage();
-    }
-    if (bits.taxon_id) {
-      this.setState({taxon_id: bits.taxon_id})
+      this.loadHomepage(taxon_id);
     }
     this.setState({bits});
     window.onpopstate = () => {
@@ -414,7 +424,7 @@ class App extends Component {
         }
       }
       if (Object.keys(bits2).length === 0) {
-        this.loadHomepage();
+        this.loadHomepage(taxon_id);
       }
     };
   }
@@ -522,11 +532,11 @@ class App extends Component {
       </div>
     );
     const inOrNear = this.state.swlat ? 'in' : 'near';
-    let pageTitle = 'Find owls near me!';
+    let pageTitle = `Find ${this.state.taxon_plural.toLowerCase()} near me!`;
     let pageHeader = <h1>{pageTitle}</h1>;
     if (this.state.placeName) {
-      pageTitle = `Owls ${inOrNear} ${this.state.placeName}`;
-      pageHeader = <h1>Owls {inOrNear} <em>{this.state.placeName}</em></h1>;
+      pageTitle = `${this.state.taxon_plural} ${inOrNear} ${this.state.placeName}`;
+      pageHeader = <h1>{this.state.taxon_plural} {inOrNear} <em>{this.state.placeName}</em></h1>;
     }
 
     document.title = pageTitle;
@@ -614,7 +624,7 @@ class App extends Component {
             })}
           </div>}
           {worldwide && <div className="intro-text">
-            <p>Find owls that have been observed near you by the <a href="https://www.inaturalist.org/">iNaturalist</a> community, from {(this.state.totalObservations || 15000).toLocaleString()} observations.</p>
+            <p>Find {this.state.taxon_plural.toLowerCase()} that have been observed near you by the <a href="https://www.inaturalist.org/">iNaturalist</a> community, from {(this.state.totalObservations || 15000).toLocaleString()} observations.</p>
             <p>Search for a place above, or try <a onClick={(ev) => {
               ev.preventDefault();
               onPlaceClick(854);
@@ -626,7 +636,7 @@ class App extends Component {
               onPlaceClick(21);
             }} href={`?place=${21}`}>Florida</a>.</p>
           </div>}
-          {noResultsFound && <div className="no-results-found">No owls found in {this.state.placeName}</div>}
+          {noResultsFound && <div className="no-results-found">No {this.state.taxon_plural.toLowerCase()} found in {this.state.placeName}</div>}
         </div>
       </section>
 
@@ -637,7 +647,7 @@ class App extends Component {
       {this.state.observations.length !== 0 && <section className="secondary">
         <div className="inner">
 
-          <h2>Recently spotted Owls{worldwide ? ' worldwide' : ''}</h2>
+          <h2>Recently spotted {this.state.taxon_plural}{worldwide ? ' worldwide' : ''}</h2>
 
           <div className={`spotting-list ${this.state.species.length <= 4 ? 'spotting-list-mini' : 'spotting-list-maxi'}`}>
             {this.state.observations.map((o) => (
