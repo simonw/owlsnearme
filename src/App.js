@@ -180,8 +180,8 @@ class App extends Component {
     swlat: null,
     swlng: null,
     q: null,
-    taxon_id: 19350,
-    taxon_plural: 'Owls',
+    taxon_id: window.NEAR_ME_CONFIG.taxon_id,
+    taxon_plural: window.NEAR_ME_CONFIG.taxon_plural,
   }
   fetchPlaceData(lat, lng) {
     get(
